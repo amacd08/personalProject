@@ -23,4 +23,7 @@ massive(CONNECTION_STRING).then(db => {
     app.listen(SERVER_PORT, () => console.log(`Listening on ${SERVER_PORT}`))
 })
 
-app.get('/user', userController.createUser)
+app.post('/user/registration', userController.createUser)
+app.post('/user/login', userController.loginUser)
+app.post('/user/addFriend', userController.addPotentialFriend)
+app.get('/user/potentialFriends', userController.getPotentialFriends)
