@@ -26,4 +26,6 @@ massive(CONNECTION_STRING).then(db => {
 app.post('/user/registration', userController.createUser)
 app.post('/user/login', userController.loginUser)
 app.post('/user/addFriend', userController.addPotentialFriend)
-app.get('/user/potentialFriends', userController.getPotentialFriends)
+app.get('/user/getPotentialFriends', userController.getPotentialFriends)
+app.put('/user/confirmFriend', userController.confirmFriendRequest)
+app.get('/user/getFriends', userController.getFriends)

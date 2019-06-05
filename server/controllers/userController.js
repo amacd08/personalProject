@@ -31,6 +31,8 @@ module.exports = {
         const {session} = req
         if (session) {
             const {user_id} = session.user
+            //This DB call flips user_id into friend_id in order to collect all requests from other users to this user
+            //where  pending_friends.friend_id = ${user_id} -> From the db script
             const potentialFriendList = await db.getPotentialFriends({user_id})
             res.send(potentialFriendList) 
         }
@@ -41,11 +43,17 @@ module.exports = {
         const db = req.app.get('db')
         if (session.user) {
             console.log(session.user)
+            //user_id here represents the user who is making the original friend request. friend_id represents the user they are connecting with.
             const {user_id} = session.user
             const getFriendInfo = await db.checkName({friendFirst, friendLast})
             if (getFriendInfo[0]) {
                 const friend_id = getFriendInfo[0].user_id
-                addFriend = await db.addPotentialFriend({user_id, friend_id})
+                const checkPotentialFriendList = await db.checkPotentialFriend({user_id,friend_id})
+                const checkFriendList = await db.checkFriend({user_id,friend_id})
+                console.log(checkFriendList, checkPotentialFriendList)
+                if (checkPotentialFriendList[0]) return res.send('Request already made')    
+                if (checkFriendList[0]) return res.send('Friend already connected') 
+                const addPotentialFriend = await db.addPotentialFriend({user_id, friend_id})
                 return res.status(200).send("Waiting for friend notification")
             } else {
               return res.status(200).send("Could not find person with that information")
@@ -54,15 +62,43 @@ module.exports = {
     },
     confirmFriendRequest: async (req,res) => {
         const db = req.app.get('db')
-        const {friend_id} = req.body
+        const {user_id} = req.body
         const {session} = req
         if (session.user) {
-            user_id = session.user.user_id
-            const removeFromPotential = await db.removeFromPotential({friend_id,user_id})
-            const addFriend = await db.addFriend({friend_id, user_id})
+            //user_id now represents not the user who is logged in but the user originating the friend request. 
+            //friend_id is the existing user.  Remember that on the potential friend list, associating a users user_id with friend_id will collect all requests made to the user. Associating the user_id with the pending_friends.user_id will call all friend requests they originated.
+            //I don't like this flip-flop in values but it works for now. 
+            const friend_id = session.user.user_id
+            const removeFromPotential = await db.removePotential({friend_id,user_id})
+            const addFriends = await db.addFriend({friend_id, user_id})
             res.status(200).send('Friend Added')
         } else {
             res.status(401).send('Please Login')
+        }
+    },
+    rejectFriendRequest: async (req,res) => {
+        const db = req.app.get('db')
+        const {user_id} = req.body
+        const {session} = req
+        if (session.user) {
+            //another note - user_id does not get associated with the logged in user. In the pending_friends list the logged in user is 
+            //the friend_id. .. 
+            const friend_id = session.user.user_id
+            const removeFromPotential = await db.removePotential({firend_id, user_id})
+            res.status(200).send('Friend request removed')
+        } else {
+            res.status(401).send('Please Login')
+        }
+    },
+    getFriends: async (req,res) => {
+        const db = req.app.get('db')
+        const {session} = req
+        if (session) {
+            const {user_id} = session.user
+            //This DB call flips user_id into friend_id in order to collect all requests from other users to this user
+            //where  pending_friends.friend_id = ${user_id} -> From the db script
+            const friendList = await db.getFriends({user_id})
+            res.send(friendList) 
         }
     }
 
