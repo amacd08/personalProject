@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+
 module.exports = {
     createUser: async (req,res) => {
         const {email,username, password, firstname, lastname, city, state, favoritecourse } = req.body
@@ -10,7 +11,8 @@ module.exports = {
         const salt = bcrypt.genSaltSync(10)
         const hash = bcrypt.hashSync(password,salt)
         const userCreate = await db.createUser({email, username, hash, firstname, lastname, city, state, favoritecourse})
-        return res.status(200).send(userCreate)
+        const userInfo = await db.getUser({user_id})
+        return res.status(200).send(userInfo)
     },
     loginUser: async (req,res) => {
         const {username} = req.body
@@ -25,6 +27,10 @@ module.exports = {
         } else{
             res.status(401).send("Username/password incorrect")
         }
+    },
+    logOut: async (req,res) => {
+        req.session.destroy()
+        res.sendStatus(200)
     },
     getPotentialFriends: async (req,res) => {
         const db = req.app.get('db')
@@ -42,7 +48,6 @@ module.exports = {
         const {session} = req
         const db = req.app.get('db')
         if (session.user) {
-            console.log(session.user)
             //user_id here represents the user who is making the original friend request. friend_id represents the user they are connecting with.
             const {user_id} = session.user
             const getFriendInfo = await db.checkName({friendFirst, friendLast})
@@ -50,13 +55,12 @@ module.exports = {
                 const friend_id = getFriendInfo[0].user_id
                 const checkPotentialFriendList = await db.checkPotentialFriend({user_id,friend_id})
                 const checkFriendList = await db.checkFriend({user_id,friend_id})
-                console.log(checkFriendList, checkPotentialFriendList)
                 if (checkPotentialFriendList[0]) return res.send('Request already made')    
                 if (checkFriendList[0]) return res.send('Friend already connected') 
                 const addPotentialFriend = await db.addPotentialFriend({user_id, friend_id})
                 return res.status(200).send("Waiting for friend notification")
             } else {
-              return res.status(200).send("Could not find person with that information")
+              return res.status(404).send("Could not find person with that information")
             }
         }
     },
@@ -93,7 +97,7 @@ module.exports = {
     getFriends: async (req,res) => {
         const db = req.app.get('db')
         const {session} = req
-        if (session) {
+        if (session.user) {
             const {user_id} = session.user
             //This DB call flips user_id into friend_id in order to collect all requests from other users to this user
             //where  pending_friends.friend_id = ${user_id} -> From the db script

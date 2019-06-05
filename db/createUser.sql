@@ -3,7 +3,7 @@ values (${firstname}, ${lastname}, ${email}, ${city}, ${state}, ${favoritecourse
 
 insert into User_login (username, password)
 values (${username}, ${hash})
-returning username, user_id;
+returning user_id;
 
 
 
