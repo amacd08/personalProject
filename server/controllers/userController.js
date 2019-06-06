@@ -1,6 +1,15 @@
 const bcrypt = require('bcryptjs')
 
 module.exports = {
+    userInfo: async (req,res) => {
+        const db = req.app.get('db')
+        const {session} = req
+        if (session.user){
+            const {user_id} = session.user
+            const details = await db.getUser({user_id})
+            res.send(details[0])
+        }
+    },
     createUser: async (req,res) => {
         const {email,username, password, firstname, lastname, city, state, favoritecourse } = req.body
         const db = req.app.get('db')

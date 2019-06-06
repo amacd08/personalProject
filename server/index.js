@@ -24,6 +24,8 @@ massive(CONNECTION_STRING).then(db => {
     console.log('database set!')
     app.listen(SERVER_PORT, () => console.log(`Listening on ${SERVER_PORT}`))
 })
+
+app.get('/user/info', userController.userInfo)
 //Create user during registration
 app.post('/user/registration', userController.createUser)
 //log existing user in
@@ -58,7 +60,10 @@ app.post('/round/addHoleToRound', roundController.addHoleToRound)
 app.get('/round/getRounds', roundController.getRound)
 //get all round information
 app.get('/round/getRoundList', roundController.getRoundList)
-
+//create Post
+app.post('post/round', postController.createRoundPost)
+//get friends posts
+app.get('/post/getFriendsPosts', postController.getAllPosts)
 
 
 
