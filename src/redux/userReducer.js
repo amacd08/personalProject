@@ -5,10 +5,11 @@ const initialState = {
         lastname:'',
         email: '',
         city: '',
-        state: '',
+        st: '',
         favoritecourse:''
    },
-    friendlist: []
+    friendlist: [],
+    loggedIn: false
 }
 
 const UPDATE_USER = 'UPDATE_USER'
@@ -31,12 +32,14 @@ function userReducer(state = initialState, action) {
     const {type, payload} = action
     switch(type) {
         case UPDATE_USER:
-            const {user_id, username, firstname, lastname, city, state, favoritecourse} = payload
-            return {user_id, user:{username, firstname, lastname, city, state, favoritecourse}}
+            const {user_id, username, firstname, lastname, city, st, favoritecourse} = payload
+            return {...state, user_id, user:{username, firstname, lastname, city, st, favoritecourse}, loggedIn:true}
         case CLEAR_USER:
             return {...initialState}
-
-    }
+		default:
+			return state
+	}
 }
+
 
 export default userReducer
