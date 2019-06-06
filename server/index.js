@@ -28,6 +28,8 @@ massive(CONNECTION_STRING).then(db => {
 app.post('/user/registration', userController.createUser)
 //log existing user in
 app.post('/user/login', userController.loginUser)
+//Log out user
+app.get('/user/logout', userController.logOut)
 //make friend request
 app.post('/user/addFriend', userController.addPotentialFriend)
 //get list of requests made to you
@@ -39,7 +41,9 @@ app.put('/user/rejectFriend', userController.rejectFriendRequest)
 //get friends list
 app.get('/user/getFriends', userController.getFriends)
 //get course list
-app.get('/course/getCourse', courseController.getCourses)
+app.get('/course/getCourses', courseController.getCourses)
+//get course list
+app.get('/course/getCourse/:id', courseController.getCourse)
 //add new course to courses table
 app.post('/course/createCourse', courseController.createCourse)
 //get specific course information

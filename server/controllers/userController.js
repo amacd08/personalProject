@@ -11,7 +11,7 @@ module.exports = {
         const salt = bcrypt.genSaltSync(10)
         const hash = bcrypt.hashSync(password,salt)
         const userCreate = await db.createUser({email, username, hash, firstname, lastname, city, state, favoritecourse})
-        const userInfo = await db.getUser({user_id})
+        const userInfo = await db.getUser({user_id:userCreate[0].user_id})
         return res.status(200).send(userInfo)
     },
     loginUser: async (req,res) => {
@@ -74,7 +74,7 @@ module.exports = {
             //I don't like this flip-flop in values but it works for now. 
             const friend_id = session.user.user_id
             const removeFromPotential = await db.removePotential({friend_id,user_id})
-            const addFriends = await db.addFriend({friend_id, user_id})
+            const addFriend1 = await db.addFriend({friend_id, user_id})
             res.status(200).send('Friend Added')
         } else {
             res.status(401).send('Please Login')
@@ -99,6 +99,7 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const {user_id} = session.user
+            console.log(user_id)
             //This DB call flips user_id into friend_id in order to collect all requests from other users to this user
             //where  pending_friends.friend_id = ${user_id} -> From the db script
             const friendList = await db.getFriends({user_id})
