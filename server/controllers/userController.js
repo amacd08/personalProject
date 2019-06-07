@@ -8,6 +8,8 @@ module.exports = {
             const {user_id} = session.user
             const details = await db.getUser({user_id})
             res.send(details[0])
+        } else {
+            res.status(401).send('Please Login')
         }
     },
     createUser: async (req,res) => {
@@ -40,6 +42,7 @@ module.exports = {
     },
     logOut: async (req,res) => {
         req.session.destroy()
+        console.log(req.session)
         res.sendStatus(200)
     },
     getPotentialFriends: async (req,res) => {

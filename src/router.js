@@ -4,6 +4,7 @@ import Home from './Components/Home/Home'
 import Login from './Components/Authentication/Login'
 import Register from './Components/Authentication/Register'
 import CourseList from './Components/Courses/CourseList'
+import NewCourse from './Components/Courses/NewCourse'
 
 
 export default (
@@ -12,5 +13,6 @@ export default (
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
         <Route path='/courses' component={CourseList} />
+        <Route path='/newcourse' component={NewCourse} />
     </Switch>
 )

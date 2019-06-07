@@ -52,6 +52,7 @@ app.post('/course/createCourse', courseController.createCourse)
 app.get('/course/getCourseInfo/:id', courseController.getCourseInfo)
 //add single hole to course_info table
 app.post('/course/addHoleInfo/:id', courseController.addHoleInfo)
+app.put('/course/addHoleInfo/:id', courseController.addHoleInfo)
 //golfer adds round 
 app.post('/round/create', roundController.addRound)
 //adds stats to round

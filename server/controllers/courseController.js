@@ -31,6 +31,9 @@ module.exports = {
         const db = req.app.get('db')
         const course_id = req.params.id
         let {hole,par,tee, distance} = req.body
+        par = Number(par)
+        distance = Number(distance)
+        console.log(req.body)
         if (tee === 'blue') {
             const addHoleInfo = await db.addHoleInfoBlue({course_id,hole, par,tee,distance})
         } else if (tee === 'red') {

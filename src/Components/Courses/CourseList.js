@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import NewCourse from './NewCourse'
+import Course from './Course'
 import axios from 'axios';
 
 
@@ -15,15 +16,30 @@ class CourseList extends Component{
 
     componentDidMount() {
         axios
-            .get('/course/getcourses')
-            .then(res => {})
+            .get('/course/getCourses')
+            .then(res => {
+                this.setState({
+                    courseList: res.data
+                })
+            })
+            .catch(err => console.log(err))
+    }
+
+    addNewCourseLink = () => {
+        this.props.history.push('/newcourse')
     }
 
     render() {
+        let courses = this.state.courseList.map((course,i) => {
+            return(
+                <Course key={i} course={course} />
+            )
+        })
         return(
         <div>
           <h1>Course List</h1>
-          <NewCourse />
+          {courses}
+          <button onClick={this.addNewCourseLink}>Add New Course</button>
  
         </div>
         )
