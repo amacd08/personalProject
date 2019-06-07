@@ -27,7 +27,7 @@ module.exports = {
         if (getCourseInfo[0]) return res.send(getCourseInfo)
         return res.send('No Course Info Added Yet')
     },
-    addHoleInfo: async (req,res) => {
+    insertHoleInfo: async (req,res) => {
         const db = req.app.get('db')
         const course_id = req.params.id
         let {hole,par,tee, distance} = req.body
@@ -42,6 +42,20 @@ module.exports = {
             const addHoleInfo = await db.addHoleInfoWhite({course_id,hole, par,tee,distance})
         }
         return res.sendStatus(200)
+    },
+    updateHoleInfo: async (req,res) => {
+        const db = req.app.get('db')
+        const course_id = req.params.id
+        let {hole,par,tee, distance} = req.body
+        distance = Number(distance)
+        console.log(req.body)
+        if (tee === 'blue') {
+            const updateHoleInfo = await db.updateHoleInfoBlue({course_id,hole,distance})
+        } else if (tee === 'red') {
+            const updateHoleInfo =await  db.updateHoleInfoRed({course_id,hole, par,tee,distance})
+        } else if (tee === 'white'){
+            const updateHoleInfo = await db.updateHoleInfoWhite({course_id,hole, par,tee,distance})
+        }
+        return res.sendStatus(200)
     }
-
 }

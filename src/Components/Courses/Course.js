@@ -8,14 +8,41 @@ class Course extends Component {
         this.state = {
             addCourseInfo: false,
             tee: null,
-            updateCourseInfo: null
+            updateCourseInfo: null,
+            courseInfo: {
+                blue: [],
+                white: [],
+                red: [],
+                par: []
+            }
         }
     }
+
     async componentDidMount () {
         const courseInfo = await axios.get(`/course/getCourseInfo/${this.props.course.course_id}`)
-        if (courseInfo.data) {
+        if (courseInfo.data != 'No Course Info Added Yet') {
             this.setState({
                 updateCourseInfo: true
+            })
+            
+            let blue = []
+            let red = []
+            let par = []
+            let white = []
+            courseInfo.data.map(hole => {
+                blue.push(hole.blue)
+                white.push(hole.white)
+                red.push(hole.red)
+                par.push(hole.par)
+    
+            })
+            this.setState({
+                courseInfo: {
+                    blue: blue,
+                    white: white,
+                    red: red,
+                    par:par
+                }
             })
         }
     }
@@ -59,7 +86,7 @@ class Course extends Component {
                 let hole = 
                     <div key={i}>
                         <span>Hole {i}<input onChange={this.handleTextUpdate} type='text' placeholder='Length' name={`distance${i}`}></input></span>
-                        <span><input type='text' onChange={this.handleTextUpdate} placeholder='Par' name={`par${i}`}></input></span>
+                        {!this.state.courseInfo.par[0] && <span><input type='text' onChange={this.handleTextUpdate} placeholder='Par' name={`par${i}`}></input></span>}
                     </div>
                 holes.push(hole)
             }
@@ -67,9 +94,9 @@ class Course extends Component {
                 <form>
                     <select id="tee" name='tee' onChange={this.handleTextUpdate} defaultValue='placeholder'>
                         <option disabled value='placeholder'>Select Tee</option>
-                        <option value="blue">Blues</option>
-                        <option value="white">Whites</option>
-                        <option value="red">Reds</option>
+                        {!this.state.courseInfo.blue[0] && <option value="blue">Blues</option>}
+                        {!this.state.courseInfo.white[0] && <option value="white">Whites</option>}
+                        {!this.state.courseInfo.red[0] && <option value="red">Reds</option>}
                     </select>
                     {holes}
                     <button onClick={this.updateCourseInfo}>Update Course Info</button>
@@ -85,7 +112,6 @@ class Course extends Component {
                 
                 <button onClick={this.addCourseInfo}>Add Course Info</button>
                 {this.state.addCourseInfo && this.enterHoleInfo()}
-                
             </div>
         )
     }
