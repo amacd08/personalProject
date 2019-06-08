@@ -1,11 +1,11 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import promiseMiddleware from 'redux-promise-middleware'
 import userReducer from './userReducer'
-import courseReducer from './courseReducer'
+import roundReducer from './courseReducer'
 
 const rootReducer = combineReducers({
     user: userReducer,
-    course: courseReducer
+    course: roundReducer
 })
 
 export default createStore(rootReducer,applyMiddleware(promiseMiddleware))
