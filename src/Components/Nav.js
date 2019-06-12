@@ -23,6 +23,7 @@ class Nav extends Component{
                 <div>
                     <h3>{this.props.user.user.firstname}</h3>
                     <Link to='/login'><button onClick={this.logOut}>Logout</button></Link>
+                    <Link to='/newround'><button>New Round Button</button></Link> 
                 </div>
             
           }

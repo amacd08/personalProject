@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import axios from 'axios';
-import {connect} from 'react-router-dom'
 
 
 class NewCourse extends Component{
@@ -24,8 +23,9 @@ class NewCourse extends Component{
         e.preventDefault()
         console.log(this.state)
         const {coursename, city, st, picture} = this.state
-        const createCourse = await axios.post('/course/createCourse',{coursename, city, st, picture})
-        this.props.history.push('/courses')
+        axios
+            .post('/course/createCourse',{coursename, city, st, picture})
+            .then(() => {this.props.history.push('/courses')})
 
     }
 

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import axios from 'axios'
     
     
 class Register extends Component{
@@ -21,6 +22,17 @@ class Register extends Component{
     this.setState({
       [e.target.name]: e.target.value
     })
+  }
+
+  handleUserRegistration = (e) => {
+    e.preventDefault()
+    const {lastname, email, username, password, city, state, favoritecourse} = this.state
+    axios
+        .post('/user/login', {lastname, email, username, password, city, state, favoritecourse})
+        .then(res => this.props.history.push('/details'))
+        .catch(err => console.log(err))
+        e.target.username.value = ''
+        e.target.password.value =''
   }
 
     render() {

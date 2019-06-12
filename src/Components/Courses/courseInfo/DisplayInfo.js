@@ -1,8 +1,7 @@
-import React, {Component} from 'react'
+import React from 'react'
 
 function DisplayInfo(props){
         let teeDistance = (tee) => {
-            console.log(props.tee)
             let distance = props.tee.map((hole, i) => {
                 return <td key={i}>{hole}</td>
             })

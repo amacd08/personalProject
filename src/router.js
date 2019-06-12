@@ -5,6 +5,8 @@ import Login from './Components/Authentication/Login'
 import Register from './Components/Authentication/Register'
 import CourseList from './Components/Courses/CourseList'
 import NewCourse from './Components/Courses/NewCourse'
+import NewRoundSetup from '../src/Components/Round/NewRoundSetup'
+import PlayingRound from './Components/Round/PlayingRound'
 
 
 export default (
@@ -14,5 +16,7 @@ export default (
         <Route path='/register' component={Register} />
         <Route path='/courses' component={CourseList} />
         <Route path='/newcourse' component={NewCourse} />
+        <Route path='/newround' component={NewRoundSetup} />
+        <Route path='/playinground' component={PlayingRound} />
     </Switch>
 )

@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import NewCourse from './NewCourse'
 import Course from './Course'
 import axios from 'axios';
 
@@ -32,16 +31,16 @@ class CourseList extends Component{
     render() {
         let courses = this.state.courseList.map((course,i) => {
             return(
-                <Course key={i} course={course} />
+                <Course key={i} courseFromParent={course} />
             )
         })
         return(
-        <div>
-          <h1>Course List</h1>
-          {courses}
-          <button onClick={this.addNewCourseLink}>Add New Course</button>
- 
-        </div>
+            <div>
+              <h1>Course List</h1>
+              {courses}
+              <button onClick={this.addNewCourseLink}>Add New Course</button>
+     
+            </div>
         )
     }
 } export default CourseList

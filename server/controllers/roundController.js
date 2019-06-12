@@ -3,9 +3,9 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const db = req.app.get('db')
-            const {user_id, course_id} = req.body
-            const createRound = await db.createRound({user_id, course_id})
-            res.send(createRound)
+            const {user_id, course_id, tee, numOfHoles, goal, round_complete} = req.body
+            const createRound = await db.createRound({user_id, course_id, tee, numOfHoles, goal, round_complete})
+            res.send(createRound[0])
         }
     },
     addHoleToRound: async (req,res) => {
@@ -13,7 +13,7 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const {round_id, hole, score, fairway, gir, lostball } = req.body
-            const addStats = await db.addHoleToRound({round_id, hole, score, fairway, gir})
+            const addStats = await db.addHoleToRound({round_id, hole, score, fairway, gir, lostball})
             res.status(200)
         } else {
             res.send('Please login')
@@ -35,7 +35,7 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const {round_id} = req.body
-            const getRound = await db.getround({round_id})
+            const getRound = await db.getRound({round_id})
             res.send(getRound)
         } else {
             res.status(401).send('Please Login')
