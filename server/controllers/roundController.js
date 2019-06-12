@@ -3,8 +3,8 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const db = req.app.get('db')
-            const {user_id, course_id, tee, numOfHoles, goal, round_complete} = req.body
-            const createRound = await db.createRound({user_id, course_id, tee, numOfHoles, goal, round_complete})
+            const {user_id, course_id, tee, numOfHoles, goal, roundComplete, startingHole} = req.body
+            const createRound = await db.createRound({user_id, course_id, tee, numOfHoles, goal, roundComplete, startingHole})
             res.send(createRound[0])
         }
     },

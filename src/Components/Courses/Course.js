@@ -183,13 +183,15 @@ class Course extends Component {
                         <p>{this.props.courseFromParent.city}</p>
                     </div>
                 }
-                {this.props.source !=='NewRoudConfig'  ?
+                {this.props.source !=='NewRoundConfig'  ?
                     <div>
                         <button onClick={this.addCourseInfo}>Add Course Info</button>
                         <button onClick={this.displayHoles}>Display Course Information</button>
                     </div>
                 :
-                        this.showCourseInfo()
+                    <div>
+                        {this.showCourseInfo()}
+                    </div>
                 }
                     {this.state.addCourseInfo && this.enterHoleInfo()}
                     {this.state.displayHoles && this.showCourseInfo()}                 

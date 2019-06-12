@@ -10,8 +10,10 @@ const initialState = {
     course_id: '',
     courseInfo: {},
     numOfHoles: null,
+    startingHole: 1,
     goal: null,
-    hole: 1
+    hole: 1,
+    roundComplete: 'no'
 }
 
 const ROUND_SETUP = 'ROUND_SETUP'
@@ -46,12 +48,11 @@ function roundReducer(state = initialState, action) {
             const {course_id} = payload
             return {...state, course_id}
         case ROUND_SETUP:
-            const {round_id, tee, numOfHoles, goal, courseInfo} = payload
-            return {...state, round_id, tee, numOfHoles, goal, courseInfo}
+            const {round_id, tee, numOfHoles, goal, courseInfo, roundComplete, startingHole, hole} = payload
+            return {...state, round_id, tee, numOfHoles, goal, courseInfo, roundComplete, startingHole, hole}
         case HOLE_UPDATE:
             const {fairway, score, lostBall, gir} = payload
             let newRoundInfo = {...state.roundInfo}
-            console.log(newRoundInfo)
             newRoundInfo.fairway.push(fairway)
             newRoundInfo.score.push(score)
             newRoundInfo.gir.push(gir)

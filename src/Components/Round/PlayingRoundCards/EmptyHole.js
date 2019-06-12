@@ -75,19 +75,20 @@ class EmptyHole extends Component {
     }
 
     nextHole = () => {
-        if (this.props.hole <= this.props.numOfHoles){
+        console.log(this.props.round.hole, this.props.round.numOfHoles)
+        if (this.props.round.hole <= this.props.round.numOfHoles + this.props.round.hole -1){
             const {fairway,score, gir,lostBall} = this.state
             const {round_id, hole} = this.props.round
             this.props.holeUpdate({fairway,score,gir,lostBall})
             axios.post('/round/addHoleToRound',{round_id, hole, fairway,score,gir,lostBall})
-            this.setState({
+            return this.setState({
                 selectScore: false,
                 selectFairway: true
             })
-        }
-        else{ 
-            this.props.history.push('/')
-        }
+        } 
+        // else if (this.props.round.hole > this.props.round.numOfHoles) { 
+        //     this.props.history.push('/')
+        // }
     }
 
 

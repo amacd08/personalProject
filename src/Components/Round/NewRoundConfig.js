@@ -11,9 +11,11 @@ class NewRoundConfig extends Component{
         this.state ={
             chooseTees: true,
             chooseNumOfHoles: false,
+            chooseStartingHole: false,
             chooseGoal: false,
             tee:'',
             numOfHoles: 18,
+            startingHole: 1,
             goal: null,
             round_id: null,
             courseInfo: {
@@ -26,12 +28,6 @@ class NewRoundConfig extends Component{
         this.blueRef = React.createRef();
         this.whiteRef = React.createRef();
         this.redRef = React.createRef();
-        this.nineHoleRef = React.createRef();
-        this.eighteenHoleRef = React.createRef();
-
-
-
-
     }
 
     async componentDidMount () {
@@ -94,31 +90,48 @@ class NewRoundConfig extends Component{
 
     updateNineHole = () => {
         this.setState({
-            numOfHoles:this.nineHoleRef.current.attributes.value.value,
+            numOfHoles: 9,
             chooseNumOfHoles: false,
-            chooseGoal: true
+            chooseStartingHole: true
         })
     }
     updateEighteenHole = () => {
         this.setState({
-            tee:this.eighteenHoleRef.current.attributes.value.value,
+            numOfHoles: 18,
             chooseNumOfHoles: false,
             chooseGoal: true
         })
     }
+    updateStartingOneHole = () => {
+        this.setState({
+            startingHole: 1,
+            chooseStartingHole: false,
+            chooseGoal: true
+        })
+    }
+    updateStartingTenHole = () => {
+        this.setState({
+            startingHole: 10,
+            chooseStartingHole: false,
+            chooseGoal: true
+        })
+    }
     roundSetup = async () => {
+        let roundComplete = 'no'
+        const {tee, numOfHoles, goal,courseInfo, startingHole} = this.state
         let roundSetup = await axios.post('/round/create',{
                 user_id:this.props.user.user_id,
                 course_id:this.props.round.course_id.course_id,
-                goal: this.state.goal,
-                numOfHoles: this.state.numOfHoles,
-                tee:this.state.tee,
-                round_complete: no})
-            this.setState({
-                    round_id: roundSetup.data.round_id
-                })
-        const {round_id, tee, numOfHoles, goal,courseInfo} = this.state
-        this.props.roundSetup({round_id, tee, numOfHoles, goal, courseInfo})
+                goal,
+                numOfHoles,
+                tee,
+                startingHole,
+                roundComplete})
+        this.setState({
+            round_id: roundSetup.data.round_id
+        })
+        const {round_id} = this.state
+        this.props.roundSetup({round_id, tee, numOfHoles, goal, courseInfo, roundComplete, startingHole, hole:startingHole})
         return this.props.history.push('/playinground')
     }
 
@@ -142,11 +155,23 @@ class NewRoundConfig extends Component{
             return(
                 <div className="choiceBox">
                     <h1>Round Length</h1>
-                    <div className='yesButton1' name='numOfHoles' value={9} ref={this.nineHoleRef} onClick={this.updateNineHole}>
+                    <div className='yesButton1' name='numOfHoles9' onClick={this.updateNineHole}>
                         <h2>9</h2>
                     </div>
-                    <div className="noButton1" name='numOfHoles' value={18} ref={this.eighteenHoleRef} onClick={this.updateEighteenHole}>
+                    <div className="noButton1" name='numOfHoles18'  onClick={this.updateEighteenHole}>
                         <h2>18</h2>
+                    </div>
+                </div>
+            )
+        } else if (this.state.chooseStartingHole) {
+            return(
+                <div className="choiceBox">
+                    <h1>Starting Hole</h1>
+                    <div className='yesButton1' name='numOfHoles' value={9} ref={this.startingOneHoleRef} onClick={this.updateStartingOneHole}>
+                        <h2>1</h2>
+                    </div>
+                    <div className="noButton1" name='numOfHoles' value={18} ref={this.startingTenHoleRef} onClick={this.updateStartingTenHole}>
+                        <h2>10</h2>
                     </div>
                 </div>
             )

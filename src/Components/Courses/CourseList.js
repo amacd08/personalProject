@@ -31,7 +31,10 @@ class CourseList extends Component{
     render() {
         let courses = this.state.courseList.map((course,i) => {
             return(
-                <Course key={i} courseFromParent={course} />
+                <Course 
+                    key={i} 
+                    courseFromParent={course}
+                    source="CourseList"/>
             )
         })
         return(
