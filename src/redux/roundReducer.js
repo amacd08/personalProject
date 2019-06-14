@@ -6,6 +6,12 @@ const initialState = {
         lostBall:[],
         gir:[]
     },
+    roundTotal: {
+        total_fairways: 0,
+        total_score: 0,
+        total_lostBall: 0,
+        total_gir: 0
+    },
     tee: '',
     course_id: '',
     courseInfo: {},
@@ -19,6 +25,7 @@ const initialState = {
 const ROUND_SETUP = 'ROUND_SETUP'
 const COURSE_SELECT = 'COURSE_SELCT'
 const HOLE_UPDATE = 'HOLE_UPDATE'
+const TOTAL_UPDATE = 'TOTAL_UPDATE'
 
 export function courseSelect(course) {
      return {
@@ -41,6 +48,13 @@ export function holeUpdate(holeInfo) {
     }
 }
 
+export function totalUpdate() {
+    return {
+        type:TOTAL_UPDATE
+    }
+}
+
+
 function roundReducer(state = initialState, action) {
     const {type, payload} = action
     switch(type) {
@@ -61,6 +75,40 @@ function roundReducer(state = initialState, action) {
                 ...state,
                 roundInfo: {...newRoundInfo} ,
                 hole: ++state.hole
+            }
+        case TOTAL_UPDATE:
+            let roundData = {...state.roundInfo}
+            let stringReduce = (stat) => {
+                let roundTotal = roundData[stat].reduce(function(total, individualResult) {
+                    if (individualResult in total) {
+                      total[individualResult]++
+                    } else {
+                      total[individualResult] = 1
+                    }
+                    return total
+                },{})
+                if (roundTotal.yes) {
+                    return roundTotal
+                } else {
+                    return 0
+                }
+            }
+            let fairwayTotal = stringReduce('fairway')
+            let girTotal = stringReduce('gir')
+            let lostBallTotal = stringReduce('lostBall')
+            let scoreTotal = roundData.score.reduce((total, num) => {
+                return total + num
+            })
+
+
+            return {
+                ...state,
+                roundTotal:{
+                    total_fairways: fairwayTotal.yes,
+                    total_gir: girTotal.yes,
+                    total_lostball: lostBallTotal.yes,
+                    total_score: scoreTotal
+                }
             }
         default: 
             return state

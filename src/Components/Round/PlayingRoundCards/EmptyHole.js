@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
-import {holeUpdate} from '../../../redux/roundReducer'
+import {holeUpdate,totalUpdate} from '../../../redux/roundReducer'
 
 
 class EmptyHole extends Component {
@@ -50,7 +50,7 @@ class EmptyHole extends Component {
         })
     }
 
-    updateSelectGiryNo = () => {
+    updateSelectGirNo = () => {
         this.setState({
             gir: 'no',
             selectGir: false,
@@ -77,18 +77,21 @@ class EmptyHole extends Component {
     nextHole = () => {
         console.log(this.props.round.hole, this.props.round.numOfHoles)
         if (this.props.round.hole <= this.props.round.numOfHoles + this.props.round.hole -1){
-            const {fairway,score, gir,lostBall} = this.state
+            let {fairway,score, gir,lostBall} = this.state
+            score = Number(score)
             const {round_id, hole} = this.props.round
             this.props.holeUpdate({fairway,score,gir,lostBall})
             axios.post('/round/addHoleToRound',{round_id, hole, fairway,score,gir,lostBall})
+            this.props.totalUpdate()
+            const {total_score,total_fairways,total_gir,total_lostball} = this.props.round.roundTotal
+            axios.put('/round/addRoundTotals',{total_score,total_fairways,total_gir,total_lostball, round_id})
             return this.setState({
                 selectScore: false,
                 selectFairway: true
             })
-        } 
-        // else if (this.props.round.hole > this.props.round.numOfHoles) { 
-        //     this.props.history.push('/')
-        // }
+        } else if (this.props.round.hole > this.props.round.startingHole + this.props.round.numOfHoles) { 
+            this.props.history.push('/')
+        }
     }
 
 
@@ -141,7 +144,6 @@ class EmptyHole extends Component {
     }
 
     render(){
-        console.log(this.state.score)
         return(
             <div>
                 {this.choiceFunction()}
@@ -156,5 +158,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect (mapStateToProps,{holeUpdate})(EmptyHole)
+export default connect (mapStateToProps,{totalUpdate, holeUpdate})(EmptyHole)
 

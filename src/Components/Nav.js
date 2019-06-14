@@ -29,10 +29,10 @@ class Nav extends Component{
                 </div>
             
           }
-          <span>
-              <Link to='/courses'><p>Courses</p></Link>
-              <Link to='/'><p>Home</p></Link>
-              <p>Rounds</p>
+          <span style={displayFlex}>
+              <Link to='/courses'><p style={psapce}>Courses</p></Link>
+              <Link to='/'><p style={psapce}>Home</p></Link>
+              <p style={psapce}>Rounds</p>
           </span>
         </div>
         )
@@ -42,5 +42,14 @@ class Nav extends Component{
 function mapStateToProps(state) {
     return {user: state.user}
   }
+
+  
+const displayFlex = {
+    display: 'flex'
+}
+
+const psapce = {
+    margin: '20px'
+}
   
    export default connect(mapStateToProps,{clearUser})(Nav)

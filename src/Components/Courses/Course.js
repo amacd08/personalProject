@@ -79,33 +79,54 @@ class Course extends Component {
             addCourseInfo: false
         })
     }
-
+    
+    scoreCard = (startingHole, numOfHoles,card) => {
+        return(
+        <table>
+            <thead>
+                <tr>
+                    <th>Tee</th>
+                        {this.tableHead(startingHole, numOfHoles,card)}
+                </tr>
+            </thead>
+            <tbody>
+                <DisplayInfo
+                    tee={this.state.courseInfo.par}
+                    row={'par'}
+                    startingHole={startingHole}
+                    numOfHoles={numOfHoles}
+                    card={card}
+                     />
+                <DisplayInfo
+                    tee={this.state.courseInfo.blue}
+                    row={'blue'} 
+                    startingHole={startingHole}
+                    numOfHoles={numOfHoles}
+                    card={card}/>
+                <DisplayInfo
+                    tee={this.state.courseInfo.white}
+                    row={'white'} 
+                    startingHole={startingHole}
+                    numOfHoles={numOfHoles}
+                    card={card}/>
+                <DisplayInfo
+                    tee={this.state.courseInfo.red}
+                    row={'red'} 
+                    startingHole={startingHole}
+                    numOfHoles={numOfHoles}
+                    card={card}/>
+            </tbody> 
+        </table>
+        )
+    }
 
     showCourseInfo = () => {
 
         return(
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tee</th>
-                            {this.tableHead()}
-                    </tr>
-                </thead>
-                    <tbody>
-                        <DisplayInfo
-                            tee={this.state.courseInfo.par}
-                            row={'par'} />
-                        <DisplayInfo
-                            tee={this.state.courseInfo.blue}
-                            row={'blue'} />
-                        <DisplayInfo
-                            tee={this.state.courseInfo.white}
-                            row={'white'} />
-                        <DisplayInfo
-                            tee={this.state.courseInfo.red}
-                            row={'red'} />
-                    </tbody> 
-            </table>
+               <>
+                    {this.scoreCard(1, 8, 'firstCard')}
+                    {this.scoreCard(10, 8,'secondCard')}
+                </>
         )
     }
 
@@ -129,9 +150,10 @@ class Course extends Component {
         }
     }
     
-    tableHead = () => {
+    tableHead = (startingHole, numOfHoles, card) => {
         let holes = []
-        for (let i = 1; i <=18; i++) {
+        console.log(startingHole, numOfHoles)
+        for (let i = startingHole; i < startingHole + 9; i++) {
             let th = <th key={i} width='75px'>{i}</th>
             holes.push(th)
         }

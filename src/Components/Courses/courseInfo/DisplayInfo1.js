@@ -12,12 +12,17 @@ function DisplayInfo1 (props){
         if (props.source === 'golfer') {
                 if (props.card === 'firstCard') {
                 let distance = props.tee.map((hole, i) => {
-                        return <td key={i}>{hole}</td> })
+                    if (i <= 8){
+                        return <td key={i}>{hole}</td> }
+                    })
                 return distance
-                } else if (process.card === 'secondCard'){
+                } else if (props.card === 'secondCard'){
                     let distance = props.tee.map((hole, i) => {
-                        return <td key={i}>{hole}</td> })
-                    return distance
+                        if (i > 8) {
+                            return <td key={i}>{hole}</td> }
+                    })
+                console.log(distance)
+                return distance
                 }
         } else if (props.source !== 'golfer') {
         let distance = props.tee.map((hole, i) => {

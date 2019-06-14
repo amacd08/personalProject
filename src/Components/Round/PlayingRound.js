@@ -15,7 +15,6 @@ class PlayingRound extends Component {
     
 
     render(){
-        console.log(this.props)
         let holes = []
         for (let i = 1; i < this.state.hole; i++){
             let hole = {

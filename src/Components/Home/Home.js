@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import PreviousRounds from './PreviousRounds'
+import PreviousRounds1 from './PreviousRounds1'
 import Posts from './Posts'
 import {updateUser} from '../../redux/userReducer'
 import {connect} from 'react-redux'
@@ -21,7 +21,7 @@ class Home extends Component{
     render() {
         return(
         <div>
-          <PreviousRounds />
+          <PreviousRounds1 />
           <Posts />
         </div>
         )
