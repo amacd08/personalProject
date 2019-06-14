@@ -167,10 +167,10 @@ class NewRoundConfig extends Component{
             return(
                 <div className="choiceBox">
                     <h1>Starting Hole</h1>
-                    <div className='yesButton1' name='numOfHoles' value={9} ref={this.startingOneHoleRef} onClick={this.updateStartingOneHole}>
+                    <div className='yesButton1' name='startingHole' value={9} ref={this.startingOneHoleRef} onClick={this.updateStartingOneHole}>
                         <h2>1</h2>
                     </div>
-                    <div className="noButton1" name='numOfHoles' value={18} ref={this.startingTenHoleRef} onClick={this.updateStartingTenHole}>
+                    <div className="noButton1" name='startingHole' value={18} ref={this.startingTenHoleRef} onClick={this.updateStartingTenHole}>
                         <h2>10</h2>
                     </div>
                 </div>

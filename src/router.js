@@ -7,6 +7,8 @@ import CourseList from './Components/Courses/CourseList'
 import NewCourse from './Components/Courses/NewCourse'
 import NewRoundSetup from '../src/Components/Round/NewRoundSetup'
 import PlayingRound from './Components/Round/PlayingRound'
+import CompletedRound from './Components/Round/CompletedRound'
+
 
 
 export default (
@@ -18,5 +20,7 @@ export default (
         <Route path='/newcourse' component={NewCourse} />
         <Route path='/newround' component={NewRoundSetup} />
         <Route path='/playinground' component={PlayingRound} />
+        <Route path='/completedround' component={CompletedRound} />
+
     </Switch>
 )

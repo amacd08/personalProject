@@ -4,7 +4,7 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import './course.css'
 import {courseSelect} from '../../redux/roundReducer'
-import DisplayInfo from './courseInfo/DisplayInfo'
+import DisplayInfo1 from './courseInfo/DisplayInfo1'
 
 
 class Course extends Component {
@@ -90,26 +90,26 @@ class Course extends Component {
                 </tr>
             </thead>
             <tbody>
-                <DisplayInfo
+                <DisplayInfo1
                     tee={this.state.courseInfo.par}
                     row={'par'}
                     startingHole={startingHole}
                     numOfHoles={numOfHoles}
                     card={card}
                      />
-                <DisplayInfo
+                <DisplayInfo1
                     tee={this.state.courseInfo.blue}
                     row={'blue'} 
                     startingHole={startingHole}
                     numOfHoles={numOfHoles}
                     card={card}/>
-                <DisplayInfo
+                <DisplayInfo1
                     tee={this.state.courseInfo.white}
                     row={'white'} 
                     startingHole={startingHole}
                     numOfHoles={numOfHoles}
                     card={card}/>
-                <DisplayInfo
+                <DisplayInfo1
                     tee={this.state.courseInfo.red}
                     row={'red'} 
                     startingHole={startingHole}
@@ -124,8 +124,8 @@ class Course extends Component {
 
         return(
                <>
-                    {this.scoreCard(1, 8, 'firstCard')}
-                    {this.scoreCard(10, 8,'secondCard')}
+                    {this.scoreCard(0, 9, 'firstCard')}
+                    {this.scoreCard(8, 9,'secondCard')}
                 </>
         )
     }
@@ -152,7 +152,6 @@ class Course extends Component {
     
     tableHead = (startingHole, numOfHoles, card) => {
         let holes = []
-        console.log(startingHole, numOfHoles)
         for (let i = startingHole; i < startingHole + 9; i++) {
             let th = <th key={i} width='75px'>{i}</th>
             holes.push(th)

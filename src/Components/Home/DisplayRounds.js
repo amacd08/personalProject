@@ -1,10 +1,7 @@
 import React from 'react'
-import axios from 'axios'
-import {connect} from 'react-redux'
 
 
 function DisplayRounds (props) {
-    console.log(props)
     let roundDate = props.roundFromParent.date
     roundDate = roundDate.slice(0,10)
     return(

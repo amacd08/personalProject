@@ -24,10 +24,11 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const {total_score,total_fairways,total_gir,total_lostball, round_id} = req.body
+            console.log(total_lostball, total_fairways)
             const addTotals = await db.addRoundTotals({total_score,total_fairways,total_gir,total_lostball,round_id})
             res.status(200).send('totals added to round')
         } else {
-            res.sent('Please Login')
+            res.send('Please Login')
         }
     },
     getRoundList: async (req,res) => {

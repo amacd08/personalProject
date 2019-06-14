@@ -17,24 +17,30 @@ class PlayingCourseCard extends Component {
                 <thead>
                    <tr>
                        <th>Tee</th>
-                           {this.tableHead(startingHole,numOfHoles,card)}
+                           {this.tableHead()}
                    </tr>
                 </thead>
                 <tbody>
+                {console.log('numOfHoles',numOfHoles)}
+
                     <DisplayInfo1
                         tee={this.props.round.courseInfo.par}
                         row={'par'}
-                        numOfHoles={numOfHoles} 
-                        startingHole={startingHole}/>
+                        numOfHoles={this.props.numOfHoles} 
+                        startingHole={startingHole}
+                        card={card}
+                        />
                     <DisplayInfo1
                         tee={this.props.round.courseInfo[this.props.round.tee]}
                         row={this.props.round.tee}
-                        numOfHoles={numOfHoles} 
-                        startingHole={startingHole} />
+                        numOfHoles={this.props.numOfHoles} 
+                        startingHole={startingHole}
+                        source={'playingCourseCard'}
+                        card={card} />
                     <DisplayInfo1
                        tee={this.props.round.roundInfo.score}
                        row={this.props.user.user.firstname} 
-                       numOfHoles={numOfHoles} 
+                       numOfHoles={this.props.numOfHoles} 
                        startingHole={startingHole}
                        source='golfer'
                        card={card}/>
@@ -43,9 +49,9 @@ class PlayingCourseCard extends Component {
         )
     }
     
-    tableHead = (startingHole,numOfHoles,card) => {
+    tableHead = () => {
         let holes = []
-        console.log(startingHole, numOfHoles)
+        const {startingHole, numOfHoles} = this.props.round
         for (let i = startingHole; i < startingHole + 9; i++) {
             let th = <th key={i} width='75px'>{i}</th>
             holes.push(th)
@@ -55,6 +61,7 @@ class PlayingCourseCard extends Component {
 
 
     render(){
+        console.log(this.props)
         return(
             <div>
                 <div style={displayFlex}>
@@ -63,18 +70,18 @@ class PlayingCourseCard extends Component {
                     <p style={psapce}>{this.props.user.user.firstname}</p>
                 </div>
                 {this.props.round.numOfHoles === 9 ?
-                    this.scoreCard(this.props.round.startingHole, this.props.round.numOfHoles, 'firstCard')
+                    this.scoreCard(this.props.round.startingHole -1, this.props.round.numOfHoles, 'firstCard')
                 :
                 <div>
-                    {this.scoreCard(this.props.round.startingHole, this.props.round.numOfHoles, 'firstCard')}
-                    {this.scoreCard(this.props.round.startingHole + 9, this.props.round.numOfHoles,'secondCard')}
+                    {this.scoreCard(this.props.round.startingHole -1, this.props.round.numOfHoles, 'firstCard')}
+                    {this.scoreCard(this.props.round.startingHole + 7, this.props.round.numOfHoles,'secondCard')}
                 </div>
                 }
                 <div style={displayFlex}>
-                    <p style={psapce}>Score Total:{this.props.round.roundTotal.score}</p>
-                    <p style={psapce}>Total Fairways:{this.props.round.roundTotal.fairway}</p>
-                    <p style={psapce}>Total Greens:{this.props.round.roundTotal.gir}</p>
-                    <p style={psapce}>Total Lost Balls:{this.props.round.roundTotal.lostBall}</p>
+                    <p style={psapce}>Score Total:{this.props.round.roundTotal.total_score}</p>
+                    <p style={psapce}>Total Fairways:{this.props.round.roundTotal.total_fairways}</p>
+                    <p style={psapce}>Total Greens:{this.props.round.roundTotal.total_gir}</p>
+                    <p style={psapce}>Total Lost Balls:{this.props.round.roundTotal.total_lostball}</p>
                 </div>
             </div>
         )

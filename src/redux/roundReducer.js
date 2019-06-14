@@ -1,3 +1,4 @@
+import axios from 'axios'
 const initialState = {
     round_id: '',
     roundInfo:{
@@ -56,6 +57,7 @@ export function totalUpdate() {
 
 
 function roundReducer(state = initialState, action) {
+    console.log(state.numOfHoles)
     const {type, payload} = action
     switch(type) {
         case COURSE_SELECT:
@@ -99,16 +101,18 @@ function roundReducer(state = initialState, action) {
             let scoreTotal = roundData.score.reduce((total, num) => {
                 return total + num
             })
+            console.log(lostBallTotal)
+            let roundTotal = {
+                total_fairways: fairwayTotal.yes,
+                total_gir: girTotal.yes,
+                total_lostball: lostBallTotal.yes,
+                total_score: scoreTotal
+            }
 
-
+            axios.put('/round/addRoundTotals',roundTotal)
             return {
                 ...state,
-                roundTotal:{
-                    total_fairways: fairwayTotal.yes,
-                    total_gir: girTotal.yes,
-                    total_lostball: lostBallTotal.yes,
-                    total_score: scoreTotal
-                }
+                roundTotal
             }
         default: 
             return state

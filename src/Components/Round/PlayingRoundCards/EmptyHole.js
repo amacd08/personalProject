@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {holeUpdate,totalUpdate} from '../../../redux/roundReducer'
+import {Redirect} from 'react-router-dom'
 
 
 class EmptyHole extends Component {
@@ -15,7 +16,8 @@ class EmptyHole extends Component {
             fairway: '',
             gir: '',
             lostBall: '',
-            score: null
+            score: null,
+            roundComplete: false
         }
  
     }
@@ -74,26 +76,29 @@ class EmptyHole extends Component {
         })
     }
 
-    nextHole = () => {
-        console.log(this.props.round.hole, this.props.round.numOfHoles)
-        if (this.props.round.hole <= this.props.round.numOfHoles + this.props.round.hole -1){
+    nextHole = async () => {
             let {fairway,score, gir,lostBall} = this.state
             score = Number(score)
             const {round_id, hole} = this.props.round
             this.props.holeUpdate({fairway,score,gir,lostBall})
             axios.post('/round/addHoleToRound',{round_id, hole, fairway,score,gir,lostBall})
-            this.props.totalUpdate()
+            await this.props.totalUpdate()
             const {total_score,total_fairways,total_gir,total_lostball} = this.props.round.roundTotal
-            axios.put('/round/addRoundTotals',{total_score,total_fairways,total_gir,total_lostball, round_id})
-            return this.setState({
-                selectScore: false,
-                selectFairway: true
-            })
-        } else if (this.props.round.hole > this.props.round.startingHole + this.props.round.numOfHoles) { 
-            this.props.history.push('/')
+            if (this.props.round.numOfHoles >= this.props.round.hole){
+                return this.setState({
+                    selectScore: false,
+                    selectFairway: true
+                })
+            } else if (this.props.round.numOfHoles <= this.props.round.hole) { 
+                axios
+                    .put(`/round/completeRound/:${round_id}`)
+                    .then(res => console.log('round completed'))
+                    .catch(err => console.log(err))
+                this.setState({
+                    roundComplete: true
+                })
+            }
         }
-    }
-
 
     choiceFunction = (e) => {
         if (this.state.selectFairway) {
@@ -147,7 +152,11 @@ class EmptyHole extends Component {
         return(
             <div>
                 {this.choiceFunction()}
+                {this.state.roundComplete === true &&
+                    <Redirect push to='/completedround' />}
+                }
             </div>
+            
         )
     }
 }
