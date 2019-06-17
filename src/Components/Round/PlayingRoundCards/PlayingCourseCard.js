@@ -51,7 +51,7 @@ class PlayingCourseCard extends Component {
     
     tableHead = () => {
         let holes = []
-        const {startingHole, numOfHoles} = this.props.round
+        const {startingHole} = this.props.round
         for (let i = startingHole; i < startingHole + 9; i++) {
             let th = <th key={i} width='75px'>{i}</th>
             holes.push(th)
@@ -61,7 +61,6 @@ class PlayingCourseCard extends Component {
 
 
     render(){
-        console.log(this.props)
         return(
             <div>
                 <div style={displayFlex}>

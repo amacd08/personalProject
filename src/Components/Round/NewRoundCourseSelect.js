@@ -3,7 +3,7 @@ import axios from 'axios'
 import Course from '../Courses/Course'
 import {connect} from 'react-redux'
 import {createCourseList} from '../../redux/courseReducer'
-
+import {clearRound} from '../../redux/roundReducer'
 class NewRoundCourseSelect extends Component {
     constructor() {
         super()
@@ -13,6 +13,7 @@ class NewRoundCourseSelect extends Component {
         }
     }
     componentDidMount() {
+        this.props.clearRound()
         axios
             .get('/course/getCourses')
             .then(res => {
@@ -52,4 +53,4 @@ function mapStateToProps(state) {
         round: state.round
     }
 }
-export default connect(mapStateToProps,{createCourseList})(NewRoundCourseSelect)
+export default connect(mapStateToProps,{createCourseList, clearRound})(NewRoundCourseSelect)

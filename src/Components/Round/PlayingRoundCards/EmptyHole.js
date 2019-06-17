@@ -84,6 +84,7 @@ class EmptyHole extends Component {
             axios.post('/round/addHoleToRound',{round_id, hole, fairway,score,gir,lostBall})
             await this.props.totalUpdate()
             const {total_score,total_fairways,total_gir,total_lostball} = this.props.round.roundTotal
+            axios.put('round/addRoundTotals', {round_id, total_score, total_fairways, total_gir, total_lostball})
             if (this.props.round.numOfHoles >= this.props.round.hole){
                 return this.setState({
                     selectScore: false,
@@ -91,7 +92,7 @@ class EmptyHole extends Component {
                 })
             } else if (this.props.round.numOfHoles <= this.props.round.hole) { 
                 axios
-                    .put(`/round/completeRound/:${round_id}`)
+                    .put(`/round/completeround/${round_id}`)
                     .then(res => console.log('round completed'))
                     .catch(err => console.log(err))
                 this.setState({

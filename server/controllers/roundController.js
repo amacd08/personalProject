@@ -24,7 +24,6 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const {total_score,total_fairways,total_gir,total_lostball, round_id} = req.body
-            console.log(total_lostball, total_fairways)
             const addTotals = await db.addRoundTotals({total_score,total_fairways,total_gir,total_lostball,round_id})
             res.status(200).send('totals added to round')
         } else {
@@ -46,20 +45,23 @@ module.exports = {
         const db = req.app.get('db')
         const {session} = req
         if (session.user) {
-            const {round_id} = req.body
+            const round_id = req.params.id
             const getRound = await db.getRound({round_id})
             res.send(getRound)
         } else {
             res.status(401).send('Please Login')
         }
     },
-    getRoundTotals: async (req,res) => {
+    completeRound: async (req,res) => {
         const db = req.app.get('db')
         const {session} = req
         if (session.user) {
-            const {round_id} = req.params.id
-            const getRoundTotals = await db.getRound({round_id})
-
+            const round_id = req.params.id
+            console.log(round_id)
+            const completeRound = await db.completeRound({round_id})
+            if (completeRound) {
+                res.send('Round Complete')
+            } 
         }
     },
     postDummy: async (req,res) => {
@@ -75,7 +77,6 @@ module.exports = {
             let startingHole = 1
             let date = '2019-06-1'
             let postRound = db.createRound({user_id, course_id, tee, numOfHoles, goal, roundComplete, startingHole})
-            console.log(postRound)
             res.send(postRound)
         }
     },
@@ -99,7 +100,6 @@ module.exports = {
                     gir: roundData.gir[i], 
                     lostball: roundData.lostball[i]
                 })
-                console.log(i)
             }
 
             total_score = roundData.score.reduce((total, num) => {

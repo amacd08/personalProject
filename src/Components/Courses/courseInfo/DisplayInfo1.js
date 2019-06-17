@@ -1,22 +1,27 @@
 import React from 'react'
 
 function DisplayInfo1 (props){
-    let {startingHole, numOfHoles} = props
-    console.log('numOfHoles',numOfHoles)
+    let {startingHole} = props
 
    
     let teeDistance = (tee) => {
         if (props.card === 'firstCard') {
             let distance = props.tee.map((hole, i) => {
                 if (i >= startingHole  && i <= startingHole + 8){
-                    return <td key={i}>{hole}</td> }
-                })
+                    return <td key={i}>{hole}</td> 
+                } else {
+                    return null
+                }
+            })
             return distance
             } else if (props.card === 'secondCard'){
                 let distance = props.tee.map((hole, i) => {
                     if (i > startingHole) {
-                        return <td key={i}>{hole}</td> }
-                })
+                        return <td key={i}>{hole}</td> 
+                    } else {
+                        return null
+                    }
+                 })
             return distance
             }
     }

@@ -58,13 +58,15 @@ app.post('/round/create', roundController.addRound)
 //adds stats to round
 app.post('/round/addHoleToRound', roundController.addHoleToRound)
 //get golfers specific round 
-app.get('/round/getRound', roundController.getRound)
+app.get('/round/getRound/:id', roundController.getRound)
 //get all round information
 app.get('/round/getRoundList', roundController.getRoundList)
 //create Post
 app.post('post/round', postController.createRoundPost)
 //add totals to round_info
 app.put('/round/addRoundTotals', roundController.addRoundTotals)
+//complete round in db
+app.put('/round/completeRound/:id', roundController.completeRound)
 //get friends posts
 app.get('/post/getFriendsPosts', postController.getAllPosts)
 //insert dummy round

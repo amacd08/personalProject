@@ -2,7 +2,6 @@ import React from 'react'
 
 
 function PlayedHole(props) {
-
     return(
         <>
             <div style={displayFlex}>
