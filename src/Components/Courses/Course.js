@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import './course.css'
 import {courseSelect} from '../../redux/roundReducer'
 import DisplayInfo1 from './courseInfo/DisplayInfo1'
+import styled from 'styled-components'
 
 
 class Course extends Component {
@@ -82,10 +83,10 @@ class Course extends Component {
     
     scoreCard = (startingHole, numOfHoles,card) => {
         return(
-        <table>
+        <table className="roundTable" min-width='350'>
             <thead>
                 <tr>
-                    <th>Tee</th>
+                    <th className="roundHeader">Tee</th>
                         {this.tableHead(startingHole, numOfHoles,card)}
                 </tr>
             </thead>
@@ -153,7 +154,7 @@ class Course extends Component {
     tableHead = (startingHole, numOfHoles, card) => {
         let holes = []
         for (let i = startingHole; i < startingHole + 9; i++) {
-            let th = <th key={i} width='75px'>{i}</th>
+            let th = <th key={i} width='75px' className="roundHeader">{i}</th>
             holes.push(th)
         }
         return holes
@@ -186,37 +187,42 @@ class Course extends Component {
 
     render(){
         return (
-            <div>
+        <>
+            <CourseInfo>
                 {this.props.source==='newRoundSetup' ?
                     
-                    <Link to ='/newround/step2'>
-                        <div onClick={() => {this.props.courseSelect({
+                    <Link to ='/newround/step2' style={noTextDecoration}>
+                        <CourseName onClick={() => {this.props.courseSelect({
                             course_id:this.props.courseFromParent,
                             course_info:this.state.course_info
                             })}}>
-                            <h2>{this.props.courseFromParent.coursename}</h2>
-                            <p>{this.props.courseFromParent.city}</p>
-                        </div>
+                            <h2>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</h2>
+                            {/* <h2>{` `}</h2> */}
+                        </CourseName>
                     </Link>
                     :   
                     <div>
-                        <h2>{this.props.courseFromParent.coursename}</h2>
-                        <p>{this.props.courseFromParent.city}</p>
+                        <h2>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</h2>
                     </div>
                 }
                 {this.props.source !=='NewRoundConfig'  ?
-                    <div>
-                        <button onClick={this.addCourseInfo}>Add Course Info</button>
-                        <button onClick={this.displayHoles}>Display Course Information</button>
-                    </div>
+                   <ButtonRow>
+                        <Submit onClick={this.addCourseInfo}>Add Info</Submit>
+                        <Submit onClick={this.displayHoles}>Display Course</Submit>
+                    </ButtonRow>
                 :
-                    <div>
+                    <>
                         {this.showCourseInfo()}
-                    </div>
+                    </>
                 }
+            </CourseInfo>
+            <div>
+
                     {this.state.addCourseInfo && this.enterHoleInfo()}
-                    {this.state.displayHoles && this.showCourseInfo()}                 
-            </div>
+                    {this.state.displayHoles && this.showCourseInfo()}      
+            </div>  
+        </>         
+            
         )
     }
 }
@@ -227,4 +233,40 @@ function mapStateToProps(state) {
         course: state.course
     }
 }
+
+const CourseName = styled.div`
+   color: black;
+   text-transform: uppercase;
+   display: flex;
+   justify-content: center;
+   `
+
+const noTextDecoration = {
+    textDecoration: 'none'
+}
+
+const CourseInfo = styled.div`
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column
+    `
+const Submit = styled.button`
+    margin: 0px;
+    margin-left: 5px;
+    font-family: sans-serif;
+    margin-top: 15px;
+    font-size: 1.5em;
+    width: 125px;
+    height: 62px;
+    background: #A7F285;
+    text-decoration: none;
+    border: 0px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    `
+const ButtonRow = styled.div`
+    display:flex;
+    justify-content: space-around;
+    width: 100%
+    `
 export default connect(mapStateToProps,{courseSelect})(Course)

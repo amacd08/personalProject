@@ -26,9 +26,9 @@ class Register extends Component{
 
   handleUserRegistration = (e) => {
     e.preventDefault()
-    const {lastname, email, username, password, city, state, favoritecourse} = this.state
+    const {firstname,lastname, email, username, password, city, state, favoritecourse} = this.state
     axios
-        .post('/user/login', {lastname, email, username, password, city, state, favoritecourse})
+        .post('/user/registration', {firstname,lastname, email, username, password, city, state, favoritecourse})
         .then(res => this.props.history.push('/details'))
         .catch(err => console.log(err))
         e.target.username.value = ''
@@ -36,11 +36,10 @@ class Register extends Component{
   }
 
     render() {
-      console.log(this.state.firstname)
         return(
         <div>
           <h1>Register</h1>
-          <form>
+          <form onSubmit={this.handleUserRegistration}>
             <input type='text' onChange={this.handleTextUpdate} placeholder='First Name' name='firstname'></input>
             <input type='text' onChange={this.handleTextUpdate} placeholder='Last Name' name='lastname'></input>              
             <input type='text' onChange={this.handleTextUpdate} placeholder='Email' name='email'></input>          
@@ -49,6 +48,7 @@ class Register extends Component{
             <input type='text' onChange={this.handleTextUpdate} placeholder='City' name='city'></input>
             <input type='text' onChange={this.handleTextUpdate} placeholder='State' name='state'></input>
             <input type='text' onChange={this.handleTextUpdate} placeholder='Favorite Course' name='favoritecourse'></input>
+            <button>Submit</button>
           </form>
         </div>
         )

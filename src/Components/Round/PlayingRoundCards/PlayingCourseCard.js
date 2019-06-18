@@ -16,7 +16,7 @@ class PlayingCourseCard extends Component {
             <table>
                 <thead>
                    <tr>
-                       <th>Tee</th>
+                       <th className="roundHeader">Tee</th>
                            {this.tableHead()}
                    </tr>
                 </thead>
@@ -53,7 +53,7 @@ class PlayingCourseCard extends Component {
         let holes = []
         const {startingHole} = this.props.round
         for (let i = startingHole; i < startingHole + 9; i++) {
-            let th = <th key={i} width='75px'>{i}</th>
+            let th = <th key={i} width='75px' className="roundHeader">{i}</th>
             holes.push(th)
         }
         return holes
@@ -64,9 +64,7 @@ class PlayingCourseCard extends Component {
         return(
             <div>
                 <div style={displayFlex}>
-                    <h2 style={psapce}>{this.props.courseFromParent.coursename}</h2>
-                    <p  style={psapce}>{this.props.courseFromParent.city}</p>
-                    <p style={psapce}>{this.props.user.user.firstname}</p>
+                    <h2 style={psapce}>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</h2>
                 </div>
                 {this.props.round.numOfHoles === 9 ?
                     this.scoreCard(this.props.round.startingHole -1, this.props.round.numOfHoles, 'firstCard')
@@ -77,10 +75,10 @@ class PlayingCourseCard extends Component {
                 </div>
                 }
                 <div style={displayFlex}>
-                    <p style={psapce}>Score Total:{this.props.round.roundTotal.total_score}</p>
-                    <p style={psapce}>Total Fairways:{this.props.round.roundTotal.total_fairways}</p>
-                    <p style={psapce}>Total Greens:{this.props.round.roundTotal.total_gir}</p>
-                    <p style={psapce}>Total Lost Balls:{this.props.round.roundTotal.total_lostball}</p>
+                    <p style={psapce}>Score:{this.props.round.roundTotal.total_score}</p>
+                    <p style={psapce}>Fairways:{this.props.round.roundTotal.total_fairways}</p>
+                    <p style={psapce}>Greens:{this.props.round.roundTotal.total_gir}</p>
+                    <p style={psapce}>Lost Balls:{this.props.round.roundTotal.total_lostball}</p>
                 </div>
             </div>
         )

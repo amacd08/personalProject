@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import Course from '../Courses/Course'
 import axios from 'axios';
 import {roundSetup} from '../../redux/roundReducer'
+import styled from 'styled-components'
 
 
 class NewRoundConfig extends Component{
@@ -67,7 +68,7 @@ class NewRoundConfig extends Component{
     
     updateBlueState = () => {
         this.setState({
-            tee:this.blueRef.current.attributes.value.value,
+            tee:'blue',
             chooseTees: false,
             chooseNumOfHoles: true
         })
@@ -75,14 +76,14 @@ class NewRoundConfig extends Component{
 
     updateWhiteState = () => {
         this.setState({
-            tee:this.whiteRef.current.attributes.value.value,
+            tee: 'white',
             chooseTees: false,
             chooseNumOfHoles: true
         })
     }
     updateRedState = () => {
         this.setState({
-            tee:this.redRef.current.attributes.value.value,
+            tee: 'red',
             chooseTees: false,
             chooseNumOfHoles: true
         })
@@ -138,50 +139,67 @@ class NewRoundConfig extends Component{
     choiceFunction = (e) => {
         if (this.state.chooseTees) {
             return(
-                <div className="choiceBox">
-                    <h1>Choose Tees</h1>
-                    <div className='bigButton1' value='blue' ref={this.blueRef} onClick={this.updateBlueState}>
-                        <h2 value='blue'>Blue</h2>
-                    </div>
-                    <div className="bigButton2" value='white' ref={this.whiteRef} onClick={this.updateWhiteState}>
-                        <h2>White</h2>
-                    </div>
-                    <div className="bigButton3" value='red' ref={this.redRef} onClick={this.updateRedState}>
-                        <h2>Red</h2>
-                    </div>
-                </div>
+                <>
+                    <Wrapper>
+                        <h1>Choose Tees</h1>
+                    </Wrapper>
+                        <ChoiceBox>
+                            <Button onClick={this.updateBlueState}>
+                                <h2 value='blue'>Blue</h2>
+                            </Button>
+                            <Button onClick={this.updateWhiteState}>
+                                <h2>White</h2>
+                            </Button>
+                            <Button onClick={this.updateRedState}>
+                                <h2>Red</h2>
+                            </Button>
+                        </ChoiceBox>
+                </>
             )
         } else if (this.state.chooseNumOfHoles) {
             return(
-                <div className="choiceBox">
-                    <h1>Round Length</h1>
-                    <div className='yesButton1' name='numOfHoles9' onClick={this.updateNineHole}>
-                        <h2>9</h2>
-                    </div>
-                    <div className="noButton1" name='numOfHoles18'  onClick={this.updateEighteenHole}>
-                        <h2>18</h2>
-                    </div>
-                </div>
+                <>
+                    <Wrapper>
+                        <h1>Round Length</h1>                
+                    </Wrapper>
+                    <ChoiceBox className="choiceBox">
+                        
+                        <div onClick={this.updateNineHole}>
+                            <h2>9</h2>
+                        </div>
+                        <div onClick={this.updateEighteenHole}>
+                            <h2>18</h2>
+                        </div>
+                    </ChoiceBox>
+                </>
             )
         } else if (this.state.chooseStartingHole) {
             return(
-                <div className="choiceBox">
-                    <h1>Starting Hole</h1>
-                    <div className='yesButton1' name='startingHole' value={9} ref={this.startingOneHoleRef} onClick={this.updateStartingOneHole}>
-                        <h2>1</h2>
-                    </div>
-                    <div className="noButton1" name='startingHole' value={18} ref={this.startingTenHoleRef} onClick={this.updateStartingTenHole}>
-                        <h2>10</h2>
-                    </div>
-                </div>
+                <>
+                    <Wrapper>
+                            <h1>Starting Hole</h1>
+                    </Wrapper>
+                    <ChoiceBox className="choiceBox">
+                        <div onClick={this.updateStartingOneHole}>
+                            <h2>1</h2>
+                        </div>
+                        <div onClick={this.updateStartingTenHole}>
+                            <h2>10</h2>
+                        </div>
+                    </ChoiceBox>
+                </>
             )
         } else if (this.state.chooseGoal) {
             return(
-                <div className="choiceBox">
-                    <h1>Choose Goal</h1>
-                    <input type='tel' name='goal' placeholder="Enter Scoring Goal" onChange={this.updateState}></input>
-                    <button onClick={this.roundSetup}>Submit</button>
-                </div>
+                <>
+                    <Wrapper>
+                        <h1>Choose Goal</h1>
+                    </Wrapper>
+                    <ChoiceBox>
+                        <input type='tel' onChange={this.updateState}></input>
+                        <button onClick={this.roundSetup}>Submit</button>
+                    </ChoiceBox>
+                </>
             )
         }
     }
@@ -207,6 +225,19 @@ function mapStateToProps(state){
         round:state.round
     }
 }  
+
+const ChoiceBox = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    `
+const Button = styled.div`
+    marign:0px;
+    `
+const Wrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    `
 
 export default connect(mapStateToProps,{roundSetup})(NewRoundConfig)
 

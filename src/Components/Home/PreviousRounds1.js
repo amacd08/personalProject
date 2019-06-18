@@ -3,6 +3,7 @@ import axios from 'axios';
 import DisplayRounds from './DisplayRounds'
 import {roundReview, clearRound} from '../../redux/roundReducer'
 import {connect} from 'react-redux'
+import styled from 'styled-components'
 
     
     
@@ -107,6 +108,7 @@ class PreviousRounds1 extends Component{
             return (
                     <DisplayRounds 
                       key={i}
+                      index={i}
                       roundFromParent={round}
                       viewCompletedRound={this.viewCompletedRound}
                       roundComplete={this.state.roundComplete}
@@ -114,17 +116,32 @@ class PreviousRounds1 extends Component{
                       resumeRound={this.state.resumeRound}
                        />
             )
-        })
+          } 
+        )
       return(
-        <div>
+        <RoundsBox>
           <h1>Previous Round</h1>
+          <div>
             {rounds}
-        </div>
+          </div>
+        </RoundsBox>
       )
     }
 } 
 function mapStateToProps(state) {
   return {round:state.round}
 }
+
+const RoundsBox = styled.div`
+    background: #F9F9F9;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    `
+    
+
+
 
 export default connect (mapStateToProps,{roundReview, clearRound})(PreviousRounds1)

@@ -1,11 +1,12 @@
-tbody {
+.roundTable {
     border: 2px solid black;
 }
-th {
+.roundHeader {
     text-align:center;
     border: 2px solid black;
 }
-td {
+.roundData  {
     text-align:center;
     border: 2px solid black;
 }
+

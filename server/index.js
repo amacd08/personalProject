@@ -9,6 +9,7 @@ roundController = require('./controllers/roundController')
 postController = require('./controllers/postController')
 
 const app = express()
+app.use( express.static( `${__dirname}/../build` ) )
 app.use(express.json())
 app.use(session({
     secret: SESSION_SECRET,
