@@ -86,7 +86,7 @@ class Course extends Component {
         <table >
             <thead>
                 <tr>
-                    <th >Tee</th>
+                    <th>Tee</th>
                         {this.tableHead(startingHole, numOfHoles,card)}
                 </tr>
             </thead>
@@ -122,11 +122,10 @@ class Course extends Component {
     }
 
     showCourseInfo = () => {
-
         return(
                <>
                     {this.scoreCard(0, 9, 'firstCard')}
-                    {this.scoreCard(8, 9,'secondCard')}
+                    {this.scoreCard(8, 9, 'secondCard')}
                 </>
         )
     }
@@ -153,13 +152,19 @@ class Course extends Component {
     
     tableHead = (startingHole, numOfHoles, card) => {
         let holes = []
-        for (let i = startingHole; i < startingHole + 9; i++) {
-            let th = <th key={i} width='50px'>{i}</th>
-            holes.push(th)
+        if (card === 'firstCard') {
+            for (let i = 1 ; i <=  9; i++) {
+                let th = <th key={i} width='50px'>{i}</th>
+                holes.push(th)
+            } 
+        } else if (card === 'secondCard') {
+            for (let i = 10 ; i <=  18; i++) {
+                let th = <th key={i} width='50px'>{i}</th>
+                holes.push(th)
+            }
         }
         return holes
     }
-
 
     enterHoleInfo = () => {
         let holes = []

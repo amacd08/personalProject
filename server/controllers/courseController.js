@@ -1,11 +1,11 @@
 module.exports = {
     createCourse: async (req,res) => {
         const db = req.app.get('db')
-        let {coursename, city, state, picture} = req.body
+        let {coursename, city, state} = req.body
         coursename = coursename.toLowerCase()
-        const getCourse = await db.getCourse({coursename})
-        if (getCourse[0]) return res.send('course already exists')
-        const courseCreate = await db.courseCreate({coursename, city, state, picture})
+        // const getCourse = await db.getCourse({coursename})
+        // if (getCourse[0]) return res.send('course already exists')
+        const courseCreate = await db.courseCreate({coursename, city, state})
         res.send(courseCreate)
     },
     getCourses: async (req, res) => {

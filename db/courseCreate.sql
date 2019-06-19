@@ -1,2 +1,2 @@
-insert into courses (coursename, city, state, picture)
-values (${coursename}, ${city}, ${state}, ${picture});
+insert into courses (coursename, city, state)
+values (${coursename}, ${city}, ${state});

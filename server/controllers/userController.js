@@ -24,6 +24,7 @@ module.exports = {
         const userCreate = await db.createUser({email, username, hash, firstname, lastname, city, state, favoritecourse})
         const userInfo = await db.getUser({user_id:userCreate[0].user_id})
         req.session.user = {userInfo}
+        console.log(userInfo)
         return res.status(200).send(userInfo)
     },
     loginUser: async (req,res) => {

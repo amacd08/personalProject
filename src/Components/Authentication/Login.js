@@ -3,6 +3,7 @@ import {updateUser} from '../../redux/userReducer'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
 
     
@@ -45,7 +46,7 @@ class Login extends Component{
                 <InputBox type='text' onChange={this.handleTextUpdate} placeholder='Password' name='password'></InputBox>
                 <Submit>Submit</Submit>
             </FormBox>
-            <Submit onClick={this.register}>Register Here</Submit>
+            <Submit><Link to={'/register'}>Register</Link></Submit>
           </ContainerBox>
         </>
       )
@@ -94,6 +95,7 @@ const InputBox = styled.input`
     font-size: 1.5em;
     border-radius: 7px;
     margin-bottom: 20px;
+    width: 75%;
     `
 
 const Submit = styled.button`
@@ -108,5 +110,6 @@ const Submit = styled.button`
     border: 0px;
     border-radius: 10px;
     margin-bottom: 10px;
+    width: 75%;
     `
  export default connect(mapStateToProps,{updateUser})(Login)

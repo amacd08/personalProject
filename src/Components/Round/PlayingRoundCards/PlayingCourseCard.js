@@ -18,11 +18,10 @@ class PlayingCourseCard extends Component {
                 <thead>
                    <tr>
                        <th className="roundHeader">Tee</th>
-                           {this.tableHead()}
+                           {this.tableHead(card)}
                    </tr>
                 </thead>
                 <tbody>
-                {console.log('numOfHoles',numOfHoles)}
                     <DisplayInfo1
                         tee={this.props.round.courseInfo.par}
                         row={'par'}
@@ -49,19 +48,23 @@ class PlayingCourseCard extends Component {
         )
     }
     
-    tableHead = () => {
+    tableHead = (card) => {
         let holes = []
-        const {startingHole} = this.props.round
-        for (let i = startingHole; i < startingHole + 9; i++) {
-            let th = <th key={i} width='75px' className="roundHeader">{i}</th>
-            holes.push(th)
+        if (card === 'firstCard') {
+            for (let i = 1 ; i <=  9; i++) {
+                let th = <th key={i} width='50px'>{i}</th>
+                holes.push(th)
+            } 
+        } else if (card === 'secondCard') {
+            for (let i = 10 ; i <=  18; i++) {
+                let th = <th key={i} width='50px'>{i}</th>
+                holes.push(th)
+            }
         }
         return holes
     }
 
-
     render(){
-        console.log(this.props.round.course_id)
         return(
                 <CourseInfo>
                     <div style={displayFlex}>

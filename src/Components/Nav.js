@@ -34,7 +34,6 @@ class Nav extends Component{
 
 
     render() {
-        console.log(this.props)
         return(
         <>
             <NavHeader>
@@ -57,7 +56,7 @@ class Nav extends Component{
                       {this.props.user.loggedIn &&
                       <>
                         <Link to='/newround' style={noTextDecoration}><NewRound>New Round</NewRound></Link> 
-                        <NewRound onClick={this.navBar}>?</NewRound>
+                        <NewRound onClick={this.navBar}>Links</NewRound>
                       </>
                       }
               </ContainerBox>

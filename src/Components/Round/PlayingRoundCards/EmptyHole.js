@@ -80,12 +80,12 @@ class EmptyHole extends Component {
     nextHole = async () => {
             let {fairway,score, gir,lostBall} = this.state
             score = Number(score)
-            const {round_id, hole} = this.props.round
+            const {round_id, hole, tee} = this.props.round
             this.props.holeUpdate({fairway,score,gir,lostBall})
             axios.post('/round/addHoleToRound',{round_id, hole, fairway,score,gir,lostBall})
             await this.props.totalUpdate()
-            const {total_score,total_fairways,total_gir,total_lostball} = this.props.round.roundTotal
-            axios.put('round/addRoundTotals', {round_id, total_score, total_fairways, total_gir, total_lostball})
+            const {total_score,total_fairways,total_gir,total_lostball, over_par, par, under_par} = this.props.round.roundTotal
+            axios.put('round/addRoundTotals', {round_id, total_score, total_fairways, total_gir, total_lostball, over_par, par, under_par})
             if (this.props.round.numOfHoles >= this.props.round.hole){
                 return this.setState({
                     selectScore: false,

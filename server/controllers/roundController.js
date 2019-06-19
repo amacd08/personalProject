@@ -23,8 +23,8 @@ module.exports = {
         const db = req.app.get('db')
         const {session} = req
         if (session.user) {
-            const {total_score,total_fairways,total_gir,total_lostball, round_id} = req.body
-            const addTotals = await db.addRoundTotals({total_score,total_fairways,total_gir,total_lostball,round_id})
+            const {total_score,total_fairways,total_gir,total_lostball, round_id, over_par, par, under_par} = req.body
+            const addTotals = await db.addRoundTotals({total_score,total_fairways,total_gir,total_lostball,round_id, over_par, par, under_par})
             res.status(200).send('totals added to round')
         } else {
             res.send('Please Login')
@@ -57,11 +57,22 @@ module.exports = {
         const {session} = req
         if (session.user) {
             const round_id = req.params.id
-            console.log(round_id)
             const completeRound = await db.completeRound({round_id})
             if (completeRound) {
                 res.send('Round Complete')
             } 
+        }
+    },
+    deleteRound: async (req,res) => {
+        const db = req.app.get('db')
+        const {session} = req
+        if (session.user) {
+            const round_id = req.params.id
+            const deleteRound = await db.deleteRound({round_id})
+            if (deleteRound) {
+                res.send('Round Complete')
+            }
+
         }
     },
     postDummy: async (req,res) => {
@@ -73,7 +84,7 @@ module.exports = {
             let tee = 'blue'
             let numOfHoles = 9
             let goal = 45
-            let roundComplete = 'no'
+            let roundComplete = 'yes'
             let startingHole = 1
             let date = '2019-06-1'
             let postRound = db.createRound({user_id, course_id, tee, numOfHoles, goal, roundComplete, startingHole})
@@ -86,10 +97,10 @@ module.exports = {
         if (session.user) {
             let round_id = req.params.id
             roundData = {
-                fairway: ['yes','no','yes','no','yes','no','yes','no','yes'],
-                gir: ['yes','no','yes','no','yes','no','yes','no','yes'],
-                lostball: ['yes','no','yes','no','yes','no','yes','no','yes'],
-                score: [4,5,6,4,5,6,4,5,6]
+                fairway: ['yes','no','no','yes','no','no','no','no','no'],
+                gir: ['yes','no','no','no','yes','no','no','yes','no'],
+                lostball: ['yes','no','yes','no','no','yes','yes','yes','no'],
+                score: [5,4,5,6,5,6,6,6,6]
             }
             for (let i = 0; i <=8; i++) {
                 const addStats = await db.addHoleToRound({
@@ -123,8 +134,13 @@ module.exports = {
             let total_fairways = stringReduce('fairway')
             let total_gir = stringReduce('gir')
             let total_lostball = stringReduce('lostball')
+            let over_par = 6
+            let par = 2
+            let under_par = 1
 
-            const addTotals = await db.addRoundTotals({total_score,total_fairways,total_gir,total_lostball,round_id})
+
+            const addTotals = await db.addRoundTotals({
+                total_score,total_fairways,total_gir,total_lostball,round_id,over_par,par,under_par})
             res.send('success')
         }
     }

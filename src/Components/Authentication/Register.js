@@ -13,7 +13,7 @@ class Register extends Component{
       password: '',
       city: '',
       state:'',
-      favoritecourse:''
+      favoritecourse:'',
 
     }
   }
@@ -29,7 +29,7 @@ class Register extends Component{
     const {firstname,lastname, email, username, password, city, state, favoritecourse} = this.state
     axios
         .post('/user/registration', {firstname,lastname, email, username, password, city, state, favoritecourse})
-        .then(res => this.props.history.push('/details'))
+        .then(res => this.props.history.push('/'))
         .catch(err => console.log(err))
         e.target.username.value = ''
         e.target.password.value =''

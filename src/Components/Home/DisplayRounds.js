@@ -7,7 +7,6 @@ function DisplayRounds (props) {
 
     let roundDate = props.roundFromParent.date
     roundDate = roundDate.slice(0,10)
-    console.log(props.roundComplete)
 
     function roundReview(){
         return (
@@ -33,6 +32,7 @@ function DisplayRounds (props) {
                   <DetailBox>
                       <DivButton onClick={() => props.viewCompletedRound(props.roundFromParent)}>View Round</DivButton>
                       <DivButton onClick={() => props.startResumeRound(props.roundFromParent)}>Resume Round</DivButton>
+                      <DivButton onClick={() => props.deleteRound(props.roundFromParent.round_id)}>Delete Round</DivButton>
                   </DetailBox>
                 }
                 {props.roundComplete === true &&

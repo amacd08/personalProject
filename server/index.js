@@ -73,6 +73,7 @@ app.get('/post/getFriendsPosts', postController.getAllPosts)
 //insert dummy round
 app.get('/round/postDummy', roundController.postDummy)
 app.get('/round/postDummyHoles/:id', roundController.postDummyHoles)
+app.delete('/round/delete/:id', roundController.deleteRound)
 
 
 

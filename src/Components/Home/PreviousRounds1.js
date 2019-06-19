@@ -14,6 +14,7 @@ class PreviousRounds1 extends Component{
             roundsList: [],
             roundComplete: false,
             resumeRound: false,
+            reloadHome: false
             }
        }
   
@@ -28,6 +29,8 @@ class PreviousRounds1 extends Component{
       })
       .catch(err => console.log(err))
     }
+
+
     
      viewCompletedRound = async (round) => {
        let fairway = []
@@ -76,6 +79,7 @@ class PreviousRounds1 extends Component{
       let blue = []
       let white = []
       let red = []
+      let course_id = await axios.get(`/course/getCourse/${round.course_id}`)
      let courseInfoAnswer = await axios.get(`/course/getCourseInfo/${round.course_id}`)
      for (let i = 0; i <= 17; i++) {
        par.push(courseInfoAnswer.data[i].par)
@@ -95,8 +99,8 @@ class PreviousRounds1 extends Component{
      if (hole < 18) {
       hole = hole + 1
     }
-     round = {...round, hole}
-     let roundInfo = {fairway, score, gir, lostBall}
+    round = {...round, hole, course_id:course_id.data}
+    let roundInfo = {fairway, score, gir, lostBall}
      let newRoundData = {...round, courseInfo, roundInfo}
       this.props.roundReview(newRoundData)
      this.setState({
@@ -110,28 +114,50 @@ class PreviousRounds1 extends Component{
      })
    }
 
+   deleteRound = (round_id, index) => {
+     axios.delete(`/round/delete/${round_id}`)
+     axios
+    .get('/round/getRoundList')
+    .then(res => {
+        this.setState({
+            roundsList: res.data
+        })
+      })
+      .catch(err => console.log(err))
+    }
+     
+
+   getRounds = () => {
+    if (this.state.roundsList[0]) {
+      let newRoundsList = this.state.roundsList
+      let rounds = newRoundsList.map((round,i) => {
+          return (
+                  <DisplayRounds 
+                    key={i}
+                    index={i}
+                    roundFromParent={round}
+                    viewCompletedRound={this.viewCompletedRound}
+                    roundComplete={this.state.roundComplete}
+                    startResumeRound={this.startResumeRound}
+                    resumeRound={this.state.resumeRound}
+                    detailInfo={this.state[`detailInfo${i}`]}
+                    viewDetailOptions={this.viewDetailOptions}
+                    deleteRound={this.deleteRound}
+                     />
+          )
+        } 
+      )
+      return rounds
+     }
+   }
+
     render() {
-        let rounds = this.state.roundsList.map((round,i) => {
-            return (
-                    <DisplayRounds 
-                      key={i}
-                      index={i}
-                      roundFromParent={round}
-                      viewCompletedRound={this.viewCompletedRound}
-                      roundComplete={this.state.roundComplete}
-                      startResumeRound={this.startResumeRound}
-                      resumeRound={this.state.resumeRound}
-                      detailInfo={this.state[`detailInfo${i}`]}
-                      viewDetailOptions={this.viewDetailOptions}
-                       />
-            )
-          } 
-        )
+      
       return(
         <RoundsBox>
           <h1>Previous Round</h1>
           <div>
-            {rounds}
+            {this.getRounds()}
           </div>
         </RoundsBox>
       )
@@ -143,11 +169,14 @@ function mapStateToProps(state) {
 
 const RoundsBox = styled.div`
     background: #F9F9F9;
-    width: 100%;
+    width: 750px;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
+    @media (max-width: 500px) {
+      max-width: 320px;
+    }
     `
 
 export default connect (mapStateToProps,{roundReview, clearRound})(PreviousRounds1)

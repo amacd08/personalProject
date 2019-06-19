@@ -23,7 +23,6 @@ export function updateUser(user) {
 }
 
 export function clearUser() {
-    console.log('hitting function')
     return {
         type: CLEAR_USER,
     }
@@ -36,7 +35,6 @@ function userReducer(state = initialState, action) {
             const {user_id, username, firstname, lastname, city, st, favoritecourse} = payload
             return {...state, user_id, user:{username, firstname, lastname, city, st, favoritecourse}, loggedIn:true}
         case CLEAR_USER:
-            console.log('hitting case')
             return {...initialState}
 		default:
 			return state

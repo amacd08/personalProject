@@ -8,10 +8,13 @@ const initialState = {
         gir:[]
     },
     roundTotal: {
+        over_par: 0,
+        par: 0,
+        under_par: 0,
         total_fairways: 0,
         total_score: 0,
         total_lostBall: 0,
-        total_gir: 0
+        total_gir: 0,
     },
     tee: '',
     course_id: '',
@@ -100,6 +103,8 @@ function roundReducer(state = initialState, action) {
             }
         case TOTAL_UPDATE:
             let roundData = {...state.roundInfo}
+            let courseData = {...state.courseInfo}
+            let {over_par, par, under_par} = state.roundTotal
             let stringReduce = (stat) => {
                 let roundTotal = roundData[stat].reduce(function(total, individualResult) {
                     if (individualResult in total) {
@@ -109,23 +114,35 @@ function roundReducer(state = initialState, action) {
                     }
                     return total
                 },{})
-                if (roundTotal.yes) {
+                if (roundTotal.yes > 0) {
                     return roundTotal
                 } else {
                     return 0
                 }
             }
+            if (roundData.score[state.hole -2] > courseData.par[state.hole-2]) {
+                ++over_par
+            } else if (roundData.score[state.hole -2] === courseData.par[state.hole -2]) {
+                    ++par
+            } else if (roundData.score[state.hole -2] < courseData.par[state.hole -2]) {
+                    ++under_par
+            }
+
             let fairwayTotal = stringReduce('fairway')
             let girTotal = stringReduce('gir')
             let lostBallTotal = stringReduce('lostBall')
             let scoreTotal = roundData.score.reduce((total, num) => {
                 return total + num
             })
+
             let roundTotal = {
                 total_fairways: fairwayTotal.yes,
                 total_gir: girTotal.yes,
                 total_lostball: lostBallTotal.yes,
-                total_score: scoreTotal
+                total_score: scoreTotal,
+                over_par,
+                par,
+                under_par
             }
             axios.put('/round/addRoundTotals',roundTotal)
             return {
@@ -140,8 +157,10 @@ function roundReducer(state = initialState, action) {
                     total_fairways: payload.total_fairways,
                     total_lostball: payload.total_lostball,
                     total_gir: payload.total_gir,
-                    total_score: payload.total_score
-
+                    total_score: payload.total_score,
+                    over_par: payload.over_par,
+                    par: payload.par,
+                    under_par: payload.under_par
                 },
                 roundInfo: payload.roundInfo,
                 course_id: payload.course_id,
