@@ -5,8 +5,7 @@ import {roundReview, clearRound} from '../../redux/roundReducer'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 
-    
-    
+  
 class PreviousRounds1 extends Component{
    constructor() {
          super()
