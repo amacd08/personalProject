@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import '../../Courses/course.css'
 import DisplayInfo1 from '../../Courses/courseInfo/DisplayInfo1'
+import styled from 'styled-components'
 
 class PlayingCourseCard extends Component {
     constructor() {
@@ -22,7 +23,6 @@ class PlayingCourseCard extends Component {
                 </thead>
                 <tbody>
                 {console.log('numOfHoles',numOfHoles)}
-
                     <DisplayInfo1
                         tee={this.props.round.courseInfo.par}
                         row={'par'}
@@ -61,26 +61,31 @@ class PlayingCourseCard extends Component {
 
 
     render(){
+        console.log(this.props.round.course_id)
         return(
-            <div>
-                <div style={displayFlex}>
-                    <h2 style={psapce}>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</h2>
-                </div>
-                {this.props.round.numOfHoles === 9 ?
-                    this.scoreCard(this.props.round.startingHole -1, this.props.round.numOfHoles, 'firstCard')
-                :
-                <div>
-                    {this.scoreCard(this.props.round.startingHole -1, this.props.round.numOfHoles, 'firstCard')}
-                    {this.scoreCard(this.props.round.startingHole + 7, this.props.round.numOfHoles,'secondCard')}
-                </div>
-                }
-                <div style={displayFlex}>
-                    <p style={psapce}>Score:{this.props.round.roundTotal.total_score}</p>
-                    <p style={psapce}>Fairways:{this.props.round.roundTotal.total_fairways}</p>
-                    <p style={psapce}>Greens:{this.props.round.roundTotal.total_gir}</p>
-                    <p style={psapce}>Lost Balls:{this.props.round.roundTotal.total_lostball}</p>
-                </div>
-            </div>
+                <CourseInfo>
+                    <div style={displayFlex}>
+                        <CourseName>
+                            <h3 style={psapce}>{`${this.props.round.course_id.coursename}, ${this.props.round.course_id.city}, ${this.props.round.course_id.state}` }</h3>
+                        </CourseName>
+                    </div>
+                    <CourseCard>
+                        {this.props.round.numOfHoles === 9 ?
+                            this.scoreCard(this.props.round.startingHole -1, this.props.round.numOfHoles, 'firstCard')
+                        :
+                        <div>
+                            {this.scoreCard(this.props.round.startingHole -1, this.props.round.numOfHoles, 'firstCard')}
+                            {this.scoreCard(this.props.round.startingHole + 7, this.props.round.numOfHoles,'secondCard')}
+                        </div>
+                        }
+                        <div style={displayFlex}>
+                            <p style={psapce}>Score:{this.props.round.roundTotal.total_score}</p>
+                            <p style={psapce}>Fairways:{this.props.round.roundTotal.total_fairways}</p>
+                            <p style={psapce}>Greens:{this.props.round.roundTotal.total_gir}</p>
+                            <p style={psapce}>Lost Balls:{this.props.round.roundTotal.total_lostball}</p>
+                        </div>
+                    </CourseCard>
+                </CourseInfo>
         )
     }
 }
@@ -91,11 +96,34 @@ function mapStateToProps(state){
     }
 }
 
+
+const CourseName = styled.div`
+   color: black;
+   text-transform: uppercase;
+   display: flex;
+   justify-content: center;
+   `
+
+const CourseCard = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    `
+const CourseInfo = styled.div`
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column
+    @media (max-width: 500px) {
+        max-width: 320px;
+      }
+    `
+
 const displayFlex = {
     display: 'flex'
 }
 
 const psapce = {
-    margin: '20px'
+    margin: '10px'
 }
 export default connect(mapStateToProps,{})(PlayingCourseCard)

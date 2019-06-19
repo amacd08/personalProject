@@ -24,11 +24,17 @@ class Nav extends Component{
 
     logOut = () => {
         this.props.clearUser()
+        this.setState({
+            displayLinks: !this.state.displayLinks
+        })
         Axios.get('/user/logout').then(()=>console.log('user logged out')).catch(err => console.log(err))
+        
+
     }
 
 
     render() {
+        console.log(this.props)
         return(
         <>
             <NavHeader>
@@ -57,7 +63,7 @@ class Nav extends Component{
               </ContainerBox>
             </NavHeader>
                     {this.state.displayLinks ?
-                        <LinkHeader>
+                        <LinkHeader >
                             <NavBox>
                                     <Link to='/' style={noTextDecoration}><NavLink><h3>Home</h3></NavLink></Link>
                                     <Link to='/courses' style={noTextDecoration}><NavLink><h3>Courses</h3></NavLink></Link>
@@ -65,7 +71,7 @@ class Nav extends Component{
                             </NavBox>
                         </LinkHeader>
                             :  
-                              <></>
+                            <></>
                         }
         </>
     
@@ -215,6 +221,7 @@ const LinkHeader = styled.div`
     width:100%
     display: flex;
     justify-content: center;
+
    `
 const NavBox = styled.div`
    width: 50%;
@@ -228,17 +235,17 @@ const NavBox = styled.div`
     width: 90%;
    }
    `
-
-
 const NavLink = styled.div` 
     width: 100px;
     margin-left: 15px;
     display: flex;
     color: black;
     justify-content: center;
+
     `
 
 const noTextDecoration = {
     textDecoration: 'none'
 }
+
    export default connect(mapStateToProps,{clearUser})(Nav)

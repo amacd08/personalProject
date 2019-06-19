@@ -4,6 +4,7 @@ import PlayingCourseCard from './PlayingRoundCards/PlayingCourseCard'
 import PlayingRoundCard from './PlayingRoundCards/PlayingRoundCard'
 import PlayedHole from './PlayingRoundCards/PlayedHole'
 import EmptyHole from './PlayingRoundCards/EmptyHole'
+import styled from 'styled-components'
 
 
 class PlayingRound extends Component {
@@ -30,7 +31,7 @@ class PlayingRound extends Component {
             holes.push(holeComponent)
         }
         return(
-            <div>
+            <PlayingRoundDiv>
                 <PlayingCourseCard 
                     source='PlayingRound'
                     courseFromParent={this.props.round.course_id} />
@@ -42,7 +43,7 @@ class PlayingRound extends Component {
                         
                 </div>
                  {holes}
-            </div>
+            </PlayingRoundDiv>
         )
     }
 }
@@ -52,4 +53,13 @@ function mapStateToProps(state){
         user:state.user
     }
 }
+
+const PlayingRoundDiv = styled.div`
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column
+    @media (max-width: 500px) {
+        max-width: 320px;
+      }
+    `
 export default connect(mapStateToProps,{})(PlayingRound)

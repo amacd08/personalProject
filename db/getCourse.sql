@@ -1,2 +1,2 @@
 select * from courses
-where coursename=${coursename}
+where course_id=${course_id}

@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PlayingCourseCard from './PlayingRoundCards/PlayingCourseCard'
 import PlayedHole from './PlayingRoundCards/PlayedHole'
+import styled from 'styled-components'
+import axios from 'axios';
 
 
 class PlayingRound extends Component {
@@ -10,6 +12,8 @@ class PlayingRound extends Component {
         this.state ={
         }
     }
+
+    
     
 
     render(){
@@ -21,20 +25,22 @@ class PlayingRound extends Component {
                 fairway:this.props.round.roundInfo.fairway[i],
                 gir:this.props.round.roundInfo.gir[i],
                 lostball:this.props.round.roundInfo.gir[i],
-                par: this.props.round.courseInfo[this.props.round.tee][i],
-                length: this.props.round.courseInfo.par[i]
+                length: this.props.round.courseInfo[this.props.round.tee][i],
+                par: this.props.round.courseInfo.par[i]
             }
-            let holeComponent=<PlayedHole hole={hole} />
+            let holeComponent=<PlayedHole key={i} index={i} hole={hole} />
             holes.push(holeComponent)
         }
         return(
-            <div>
-                <PlayingCourseCard 
-                    source='PlayingRound'
-                    courseFromParent={this.props.round.course_id} />
- 
-                 {holes}
-            </div>
+            <CourseInfo>
+                <CourseCard>
+                    <PlayingCourseCard 
+                        source='PlayingRound'
+                        courseFromParent={this.props.round.course_id} />
+     
+                     {holes}
+                </CourseCard>
+            </CourseInfo>
         )
     }
 }
@@ -44,4 +50,20 @@ function mapStateToProps(state){
         user:state.user
     }
 }
+
+const CourseCard = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    `
+const CourseInfo = styled.div`
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column
+    @media (max-width: 500px) {
+        max-width: 320px;
+      }
+    `
+
 export default connect(mapStateToProps,{})(PlayingRound)

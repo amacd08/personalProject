@@ -9,34 +9,33 @@ import styled from 'styled-components'
 function App() {
   return (
       <HashRouter>
-        <body style={body}>
+        <div style={page}>
           <Nav/>
             <PageContainer>
               {router}
               <Footer/>
             </PageContainer>
-        </body>
-
-        
+        </div>
       </HashRouter>
       
   );
 }
 
-const body = {
+const page = {
     position: 'relative',
     width: '100vw',
-    height: '100vh'  
+    height: '100vh',
 }
-const PageContainer = styled.body`
+const PageContainer = styled.div`
     width: 100%;
     min-height: calc(100% - 125px);
     display: flex;
     flex-flow: column;
     justify-content: space-between;
     align-items: center;
-    background: #FAFAFA;
     padding-top: 125px;
+    background: #FAFAFA;
+
     `
 const Content = styled.div`
     width: 100%;

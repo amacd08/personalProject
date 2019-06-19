@@ -83,10 +83,10 @@ class Course extends Component {
     
     scoreCard = (startingHole, numOfHoles,card) => {
         return(
-        <table className="roundTable" min-width='350'>
+        <table >
             <thead>
                 <tr>
-                    <th className="roundHeader">Tee</th>
+                    <th >Tee</th>
                         {this.tableHead(startingHole, numOfHoles,card)}
                 </tr>
             </thead>
@@ -154,7 +154,7 @@ class Course extends Component {
     tableHead = (startingHole, numOfHoles, card) => {
         let holes = []
         for (let i = startingHole; i < startingHole + 9; i++) {
-            let th = <th key={i} width='75px' className="roundHeader">{i}</th>
+            let th = <th key={i} width='50px'>{i}</th>
             holes.push(th)
         }
         return holes
@@ -166,22 +166,30 @@ class Course extends Component {
             for (let i = 1; i <=18; i++ ) {
                 let hole = 
                     <div key={i}>
-                        <span>Hole {i}<input onChange={this.handleTextUpdate} type='text' placeholder='Length' name={`distance${i}`}></input></span>
-                        {!this.state.courseInfo.par[0] && <span><input type='text' onChange={this.handleTextUpdate} placeholder='Par' name={`par${i}`}></input></span>}
+                        <EnterHole>
+                            <EnterHoleText>Hole {i}:</EnterHoleText>
+                            <EnterHoleInput onChange={this.handleTextUpdate} type='tel' placeholder='Length' name={`distance${i}`}></EnterHoleInput>
+                        </EnterHole>
+                             {!this.state.courseInfo.par[0] && 
+                                <EnterHole>
+                                   <EnterHoleText>Par:</EnterHoleText>
+                                   <EnterHoleInput type='tel' onChange={this.handleTextUpdate} placeholder='Par'  name={`par${i}`}></EnterHoleInput>
+                                </EnterHole>
+                            }
                     </div>
                 holes.push(hole)
             }
             return (
-                <form>
-                    <select id="tee" name='tee' onChange={this.handleTextUpdate} defaultValue='placeholder'>
+                <EnterHoleForm>
+                    <EnterHoleSelect id="tee" name='tee' onChange={this.handleTextUpdate} defaultValue='placeholder'>
                         <option disabled value='placeholder'>Select Tee</option>
                         {!this.state.courseInfo.blue[0] && <option value="blue">Blues</option>}
                         {!this.state.courseInfo.white[0] && <option value="white">Whites</option>}
                         {!this.state.courseInfo.red[0] && <option value="red">Reds</option>}
-                    </select>
+                    </EnterHoleSelect>
                     {holes}
                     <button onClick={this.updateCourseInfo}>Update Course Info</button>
-                </form>
+                </EnterHoleForm>
             )
     }
 
@@ -196,13 +204,12 @@ class Course extends Component {
                             course_id:this.props.courseFromParent,
                             course_info:this.state.course_info
                             })}}>
-                            <h2>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</h2>
-                            {/* <h2>{` `}</h2> */}
+                            <CourseNameText>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</CourseNameText>
                         </CourseName>
                     </Link>
                     :   
                     <div>
-                        <h2>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</h2>
+                        <CourseNameText>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</CourseNameText>
                     </div>
                 }
                 {this.props.source !=='NewRoundConfig'  ?
@@ -211,16 +218,16 @@ class Course extends Component {
                         <Submit onClick={this.displayHoles}>Display Course</Submit>
                     </ButtonRow>
                 :
-                    <>
+                    <CourseCard>
+
                         {this.showCourseInfo()}
-                    </>
+                    </CourseCard>
                 }
             </CourseInfo>
-            <div>
-
+            <CourseCard>
                     {this.state.addCourseInfo && this.enterHoleInfo()}
                     {this.state.displayHoles && this.showCourseInfo()}      
-            </div>  
+            </CourseCard>
         </>         
             
         )
@@ -234,12 +241,46 @@ function mapStateToProps(state) {
     }
 }
 
+const EnterHoleForm = styled.form`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-flow: column;
+   `
+
+const EnterHole = styled.div`
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin: 0px;
+   `
+const EnterHoleInput = styled.input` 
+    font-size: 1.5em;
+    font-family: sans-serif;
+    width: 50%
+    margin-top: 10px;
+    `
+const EnterHoleSelect = styled.select` 
+    font-size: 1.5em;
+    font-family: sans-serif;
+    width: 60%
+    
+    `
+const EnterHoleText = styled.h2` 
+    margin: 0px;
+    margin-top: 10px;
+    width: 40%
+    `
 const CourseName = styled.div`
    color: black;
-   text-transform: uppercase;
    display: flex;
    justify-content: center;
    `
+
+const CourseNameText = styled.h2`
+    text-transform: uppercase;
+    `
+
 
 const noTextDecoration = {
     textDecoration: 'none'
@@ -249,6 +290,9 @@ const CourseInfo = styled.div`
     display: flex;
     justify-content: space-around;
     flex-flow: column
+    @media (max-width: 500px) {
+        max-width: 320px;
+      }
     `
 const Submit = styled.button`
     margin: 0px;
@@ -268,5 +312,11 @@ const ButtonRow = styled.div`
     display:flex;
     justify-content: space-around;
     width: 100%
+    `
+const CourseCard = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
     `
 export default connect(mapStateToProps,{courseSelect})(Course)

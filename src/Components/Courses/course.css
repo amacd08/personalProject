@@ -1,12 +1,39 @@
-.roundTable {
+table {
     border: 2px solid black;
 }
-.roundHeader {
+
+.holeTable {
+    border: 0px solid white;
+}
+th {
     text-align:center;
     border: 2px solid black;
 }
-.roundData  {
+td  {
     text-align:center;
     border: 2px solid black;
 }
 
+.blue {
+    background: lightblue;
+    border: 2px solid black;
+    text-align:center;
+}
+
+.red {
+    background: pink;
+    border: 2px solid black;
+    text-align:center;
+}
+
+.white {
+    background: cornsilk;
+    border: 2px solid black;
+    text-align:center;
+}
+
+.par {
+    background: white;
+    border: 2px solid black;
+    text-align:center;
+}

@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import {holeUpdate,totalUpdate} from '../../../redux/roundReducer'
 import {Redirect} from 'react-router-dom'
+import styled from 'styled-components'
 
 
 class EmptyHole extends Component {
@@ -104,60 +105,74 @@ class EmptyHole extends Component {
     choiceFunction = (e) => {
         if (this.state.selectFairway) {
             return(
-                <div className="choiceBox">
-                    <h1>Fairway?</h1>
-                    <div className='bigButton1' value='yes' onClick={this.updateSelectFairwayYes}>
-                        <h2>Yes</h2>
-                    </div>
-                    <div className="bigButton2" value='no' onClick={this.updateSelectFairwayNo}>
-                        <h2>No</h2>
-                    </div>
-                </div>
+                <>
+                    <Wrapper>
+                        <h1>Fairway?</h1>
+                    </Wrapper>
+                    <ChoiceBox>
+                        <div onClick={this.updateSelectFairwayYes}>
+                            <h2>Yes</h2>
+                        </div>
+                        <div onClick={this.updateSelectFairwayNo}>
+                            <h2>No</h2>
+                        </div>
+                    </ChoiceBox>
+                </>
             )
         } else if (this.state.selectGir) {
             return(
-                <div className="choiceBox">
-                    <h1>Green In Regulation?</h1>
-                    <div className='bigButton1' value='yes' onClick={this.updateSelectGirYes}>
-                        <h2>Yes</h2>
-                    </div>
-                    <div className="bigButton2" value='no' onClick={this.updateSelectGirNo}>
-                        <h2>No</h2>
-                    </div>
-                </div>
+                <>
+                    <Wrapper>
+                        <h1>Green In Regulation?</h1>
+                    </Wrapper>
+                    <ChoiceBox>
+                        <div onClick={this.updateSelectGirYes}>
+                            <h2>Yes</h2>
+                        </div>
+                        <div className="bigButton2" value='no' onClick={this.updateSelectGirNo}>
+                            <h2>No</h2>
+                        </div>
+                    </ChoiceBox>
+                </>
             )
         } else if (this.state.selectLostBalls) {
             return(
-                <div className="choiceBox">
-                    <h1>Lost Balls?</h1>
-                    <div className='bigButton1' value='yes' onClick={this.updateSelectLostBallsYes}>
-                        <h2>Yes</h2>
-                    </div>
-                    <div className="bigButton2" value='no' onClick={this.updateSelectLostBallsNo}>
-                        <h2>No</h2>
-                    </div>
-                </div>
+                <>
+                    <Wrapper>
+                        <h1>Lost Balls?</h1>
+                    </Wrapper>
+                    <ChoiceBox>
+                        <div  onClick={this.updateSelectLostBallsYes}>
+                            <h2>Yes</h2>
+                        </div>
+                        <div  onClick={this.updateSelectLostBallsNo}>
+                            <h2>No</h2>
+                        </div>
+                    </ChoiceBox>
+                </>
             )
         } else if (this.state.selectScore) {
              return(
-                <div className="choiceBox">
-                    <h1>Score</h1>
-                    <input type='tel' name='score' placeholder="Enter Score" onChange={this.updateState}></input>
-                    <button onClick={this.nextHole}>Submit</button>
-                </div>
+                <>
+                    <Wrapper>
+                        <h1>Score</h1>
+                    </Wrapper>
+                    <ChoiceBox>
+                        <EnterHoleInput type='tel' placeholder="Enter Score" name='score' onChange={this.updateState}></EnterHoleInput>
+                        <button onClick={this.nextHole}>Submit</button>
+                    </ChoiceBox>
+                </>
             )
         }
     }
 
     render(){
         return(
-            <div>
+            <CourseListDiv>
                 {this.choiceFunction()}
                 {this.state.roundComplete === true &&
                     <Redirect push to='/completedround' />}
-                }
-            </div>
-            
+            </CourseListDiv>
         )
     }
 }
@@ -167,6 +182,37 @@ function mapStateToProps(state) {
         round:state.round
     }
 }
+const CourseListDiv = styled.div`
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    flex-flow:column;
+    align-items: center;
+    @media (max-width: 500px) {
+        width: 320px;
+      }
+    `
+const EnterHoleInput = styled.input` 
+    font-size: 1.5em;
+    font-family: sans-serif;
+    width: 50%
+    margin-top: 10px;
+    `
+const ChoiceBox = styled.div`
+    width: 90%
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    `
+const Button = styled.div`
+    marign:0px;
+    `
+const Wrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    `
+
+
 
 export default connect (mapStateToProps,{totalUpdate, holeUpdate})(EmptyHole)
 

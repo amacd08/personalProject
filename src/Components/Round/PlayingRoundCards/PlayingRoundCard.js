@@ -14,22 +14,22 @@ class PlayingRoundCard extends Component {
         return(
             
             <TableWrapper>
-                <InfoTable className="infoTable" border='0' width='300' height='25'>
+                <table className="holeTable" border='0' width='300' height='25'>
                     <thead>
                         <tr>
-                            <th><h4>Hole</h4></th>
-                            <th><h4>Par</h4></th>
-                            <th><h4>Length</h4></th>
+                            <InfoTable><h4>Hole</h4></InfoTable>
+                            <InfoTable><h4>Par</h4></InfoTable>
+                            <InfoTable><h4>Length</h4></InfoTable>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                           <th><h4>{this.props.round.hole}</h4></th>
-                           <th><h4>{this.props.round.courseInfo.par[this.props.round.hole -1]}</h4></th>
-                           <th><h4>{this.props.round.courseInfo[this.props.round.tee][this.props.round.hole -1]}</h4></th>
+                           <TableValue><h4>{this.props.round.hole}</h4></TableValue>
+                           <TableValue><h4>{this.props.round.courseInfo.par[this.props.round.hole -1]}</h4></TableValue>
+                           <TableValue><h4>{this.props.round.courseInfo[this.props.round.tee][this.props.round.hole -1]}</h4></TableValue>
                         </tr>
                     </tbody>
-                </InfoTable>
+                </table>
             </TableWrapper>
             
         )
@@ -47,11 +47,18 @@ const TableWrapper = styled.div`
     justify-content: center
     `
 
-const InfoTable = styled.table`
+const InfoTable = styled.th`
     width: 300px
     height:50px   
     background: #A7F285
     border-radius: 7px;
     box-shadow: 4px 4px 1px 1px #888888;
     `
+const TableValue = styled.td`
+    height:25px   
+    background: #FAFAFA
+    border-radius: 7px;
+    box-shadow: 4px 4px 1px 1px #888888;
+    `
+
 export default connect(mapStateToProps,{})(PlayingRoundCard)

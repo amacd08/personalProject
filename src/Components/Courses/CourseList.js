@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Course from './Course'
+import styled from 'styled-components'
 import axios from 'axios';
 
 
@@ -38,12 +39,25 @@ class CourseList extends Component{
             )
         })
         return(
-            <div>
+            <CourseListDiv>
               <h1>Course List</h1>
               {courses}
               <button onClick={this.addNewCourseLink}>Add New Course</button>
      
-            </div>
+            </CourseListDiv>
         )
     }
-} export default CourseList
+}  export default CourseList
+
+const CourseListDiv = styled.div`
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    flex-flow:column;
+    align-items: center;
+    @media (max-width: 500px) {
+        width: 320px;
+      }
+    `
+
+

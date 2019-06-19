@@ -13,7 +13,7 @@ class PreviousRounds1 extends Component{
          this.state = {
             roundsList: [],
             roundComplete: false,
-            resumeRound: false
+            resumeRound: false,
             }
        }
   
@@ -38,6 +38,7 @@ class PreviousRounds1 extends Component{
        let blue = []
        let white = []
        let red = []
+      let course_id = await axios.get(`/course/getCourse/${round.course_id}`)
       let courseInfoAnswer = await axios.get(`/course/getCourseInfo/${round.course_id}`)
       for (let i = 0; i <= 17; i++) {
         par.push(courseInfoAnswer.data[i].par)
@@ -57,7 +58,7 @@ class PreviousRounds1 extends Component{
       if (hole < 18) {
         hole = hole + 1
       }
-      round = {...round, hole}
+      round = {...round, hole, course_id:course_id.data}
       let roundInfo = {fairway, score, gir, lostBall}
       let newRoundData = {...round, courseInfo, roundInfo}
       this.props.roundReview(newRoundData)
@@ -103,6 +104,12 @@ class PreviousRounds1 extends Component{
        })
    }
 
+   viewDetailOptions = (i) => {
+     this.setState({
+      [`detailInfo${i}`]: !this.state[`detailInfo${i}`]
+     })
+   }
+
     render() {
         let rounds = this.state.roundsList.map((round,i) => {
             return (
@@ -114,6 +121,8 @@ class PreviousRounds1 extends Component{
                       roundComplete={this.state.roundComplete}
                       startResumeRound={this.startResumeRound}
                       resumeRound={this.state.resumeRound}
+                      detailInfo={this.state[`detailInfo${i}`]}
+                      viewDetailOptions={this.viewDetailOptions}
                        />
             )
           } 
@@ -140,8 +149,5 @@ const RoundsBox = styled.div`
     align-items: center;
     justify-content: center;
     `
-    
-
-
 
 export default connect (mapStateToProps,{roundReview, clearRound})(PreviousRounds1)

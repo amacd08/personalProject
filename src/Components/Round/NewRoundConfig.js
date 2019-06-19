@@ -6,6 +6,7 @@ import {roundSetup} from '../../redux/roundReducer'
 import styled from 'styled-components'
 
 
+
 class NewRoundConfig extends Component{
     constructor() {
         super()
@@ -196,7 +197,7 @@ class NewRoundConfig extends Component{
                         <h1>Choose Goal</h1>
                     </Wrapper>
                     <ChoiceBox>
-                        <input type='tel' onChange={this.updateState}></input>
+                        <EnterHoleInput type='tel' onChange={this.updateState}></EnterHoleInput>
                         <button onClick={this.roundSetup}>Submit</button>
                     </ChoiceBox>
                 </>
@@ -229,7 +230,7 @@ function mapStateToProps(state){
 const ChoiceBox = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     `
 const Button = styled.div`
     marign:0px;
@@ -237,6 +238,12 @@ const Button = styled.div`
 const Wrapper = styled.div`
     display: flex;
     justify-content: center;
+    `
+const EnterHoleInput = styled.input` 
+    font-size: 1.5em;
+    font-family: sans-serif;
+    width: 50%
+    margin-top: 10px;
     `
 
 export default connect(mapStateToProps,{roundSetup})(NewRoundConfig)
