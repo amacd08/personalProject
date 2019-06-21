@@ -39,16 +39,16 @@ class Nav extends Component{
             <NavHeader>
                 <LogoBox>
                    <DesktopLogoBox>
-                       <LogoText>The Golfer Network</LogoText>
+                   <Link to='/' style={noTextDecoration}><LogoText>The Golfer Network</LogoText></Link>
                    </DesktopLogoBox>
                            {this.props.user.loggedIn ?
                                 <SmallMobileLogoBox>
-                                   <MobileLogoText>TGN</MobileLogoText>
+                                    <Link to='/' style={noTextDecoration}><MobileLogoText>TGN</MobileLogoText></Link>
                                 </SmallMobileLogoBox>
     
                             :
                                 <BigMobileLogoBox>
-                                    <BigMobileLogo>The Golfer Network</BigMobileLogo>
+                                    <Link to='/' style={noTextDecoration}><BigMobileLogo>The Golfer Network</BigMobileLogo></Link>
                                 </BigMobileLogoBox>
                            }
                 </LogoBox>
@@ -64,7 +64,7 @@ class Nav extends Component{
                     {this.state.displayLinks ?
                         <LinkHeader >
                             <NavBox>
-                                    <Link to='/' style={noTextDecoration}><NavLink><h3>Home</h3></NavLink></Link>
+                                    <Link to='/charts' style={noTextDecoration}><NavLink><h3>Charts</h3></NavLink></Link>
                                     <Link to='/courses' style={noTextDecoration}><NavLink><h3>Courses</h3></NavLink></Link>
                                     <Link to='/login' style={noTextDecoration}><NavLink onClick={this.logOut}><h3>Logout</h3></NavLink></Link>
                             </NavBox>

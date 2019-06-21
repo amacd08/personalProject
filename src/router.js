@@ -8,7 +8,7 @@ import NewCourse from './Components/Courses/NewCourse'
 import NewRoundSetup from '../src/Components/Round/NewRoundSetup'
 import PlayingRound from './Components/Round/PlayingRound'
 import CompletedRound from './Components/Round/CompletedRound'
-
+import Charts from './Components/Charts'
 
 
 export default (
@@ -21,6 +21,7 @@ export default (
         <Route path='/newround' component={NewRoundSetup} />
         <Route path='/playinground' component={PlayingRound} />
         <Route path='/completedround' component={CompletedRound} />
+        <Route path='/charts' component={Charts} />
 
     </Switch>
 )
