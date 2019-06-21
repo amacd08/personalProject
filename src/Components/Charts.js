@@ -189,8 +189,7 @@ class Chart extends Component {
                         <h2>Holes to Par</h2>
                         <Doughnut 
                         data={this.state.data}
-                        height={500}
-                        width={600} 
+                        height={400}
                         />
                   </div>}
           </ChartBody>
@@ -206,9 +205,12 @@ const PageHolder = styled.div`
    `
 
 const ChartBody = styled.div`
-    min-height: 100%;
-    min-width: 100%;
+    height:100%;
+    width: 500px;
     background: #F9F9F9
+    @media (max-width: 500px) {
+        max-width: 350px;
+      }
     `
 
 const styles = {
