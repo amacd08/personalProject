@@ -18,7 +18,7 @@ class PlayingCourseCard extends Component {
                 <thead>
                    <tr>
                        <th className="roundHeader">Tee</th>
-                           {this.tableHead(card)}
+                           {this.tableHead(startingHole, card)}
                    </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,10 @@ class PlayingCourseCard extends Component {
                        tee={this.props.round.roundInfo.score}
                        row={this.props.user.user.firstname} 
                        numOfHoles={this.props.numOfHoles} 
-                       startingHole={startingHole}
+                       startingHole={card === "firstCard" ?
+                                     0
+                                     :
+                                     9}
                        source='golfer'
                        card={card}/>
                 </tbody>
@@ -48,10 +51,10 @@ class PlayingCourseCard extends Component {
         )
     }
     
-    tableHead = (card) => {
+    tableHead = (startingHole, card) => {
         let holes = []
         if (card === 'firstCard') {
-            for (let i = 1 ; i <=  9; i++) {
+            for (let i = startingHole + 1 ; i <=  startingHole + 9; i++) {
                 let th = <th key={i} width='50px'>{i}</th>
                 holes.push(th)
             } 

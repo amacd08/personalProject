@@ -16,8 +16,10 @@ class PlayingRound extends Component {
     
 
     render(){
+        console.log(this.props.round.roundInfo.fairway.length)
+        console.log(this.props.round)
         let holes = []
-        for (let i = 0; i < this.props.round.hole -1; i++){
+        for (let i = 0; i < this.props.round.roundInfo.fairway.length ; i++){
             let hole = {
                 hole: i ,
                 score:this.props.round.roundInfo.score[i],
