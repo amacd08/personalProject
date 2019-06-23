@@ -33,7 +33,7 @@ function DisplayInfo1 (props){
             }
         }
         if (props.card === 'secondCard'){
-            for (let i = startingHole; i < 17; i++) {
+            for (let i = startingHole ; i < 17; i++) {
             distance.push(<td key={i} className={`${props.row}`}></td>)
             }
         }

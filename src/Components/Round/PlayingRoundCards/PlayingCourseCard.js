@@ -43,7 +43,7 @@ class PlayingCourseCard extends Component {
                        startingHole={card === "firstCard" ?
                                      0
                                      :
-                                     9}
+                                     8}
                        source='golfer'
                        card={card}/>
                 </tbody>
