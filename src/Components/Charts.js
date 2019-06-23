@@ -33,8 +33,7 @@ class Chart extends Component {
         let pars = []
         let under_pars = []
         let CourseLabels = []
-        for (let i = 0; i < roundList.length -1; i++){
-            console.log(roundList[i])
+        for (let i = 0; i <= roundList.length -1; i++){
             fairways.push(roundList[i].total_fairways)
             girs.push(roundList[i].total_gir)
             lostBalls.push(roundList[i].total_lostball)
