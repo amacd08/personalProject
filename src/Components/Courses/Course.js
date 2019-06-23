@@ -38,7 +38,7 @@ class Course extends Component {
 
     addCourseInfo = () => {
         this.setState({
-            addCourseInfo: true,
+            addCourseInfo: !this.state.addCourseInfo,
             displayHoles: false
         })
     }
@@ -76,7 +76,7 @@ class Course extends Component {
     displayHoles = async () => {
         let answer = await this.collectCourseInfo()
         this.setState({
-            displayHoles: true,
+            displayHoles: !this.state.displayHoles,
             addCourseInfo: false
         })
     }
@@ -193,7 +193,7 @@ class Course extends Component {
                         {!this.state.courseInfo.red[0] && <option value="red">Reds</option>}
                     </EnterHoleSelect>
                     {holes}
-                    <button onClick={this.updateCourseInfo}>Update Course Info</button>
+                    <Submit onClick={this.updateCourseInfo}>Update Course Info</Submit>
                 </EnterHoleForm>
             )
     }
@@ -205,12 +205,14 @@ class Course extends Component {
                 {this.props.source==='newRoundSetup' ?
                     
                     <Link to ='/newround/step2' style={noTextDecoration}>
+                        <CourseSubmit>
                         <CourseName onClick={() => {this.props.courseSelect({
                             course_id:this.props.courseFromParent,
                             course_info:this.state.course_info
                             })}}>
                             <CourseNameText>{`${this.props.courseFromParent.coursename}, ${this.props.courseFromParent.city}, ${this.props.courseFromParent.state}` }</CourseNameText>
                         </CourseName>
+                        </CourseSubmit>
                     </Link>
                     :   
                     <div>
@@ -294,7 +296,9 @@ const noTextDecoration = {
 const CourseInfo = styled.div`
     display: flex;
     justify-content: space-around;
+    align-items: center;
     flex-flow: column
+    width: 500px;
     @media (max-width: 500px) {
         max-width: 320px;
       }
@@ -307,21 +311,42 @@ const Submit = styled.button`
     font-size: 1.5em;
     width: 125px;
     height: 62px;
-    background: #A7F285;
+    background: #4B4F43;
+    color: white;
     text-decoration: none;
     border: 0px;
     border-radius: 10px;
     margin-bottom: 10px;
     `
+const CourseSubmit = styled.button`
+    margin: 0px;
+    font-family: sans-serif;
+    background: #A7F285;
+    text-decoration: none;
+    border: 0px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    `
+
 const ButtonRow = styled.div`
     display:flex;
-    justify-content: space-around;
-    width: 100%
+    justify-content: space-between;
+    width: 400px
+    @media (max-width: 500px) {
+        max-width: 320px;
+      }
     `
 const CourseCard = styled.div`
     display: flex;
     justify-content: center;
     flex-flow: column;
     align-items: center;
+    width: 500px;
+    @media (max-width: 500px) {
+        max-width: 320px;
+      }
     `
+
 export default connect(mapStateToProps,{courseSelect})(Course)

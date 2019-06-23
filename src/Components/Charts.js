@@ -136,14 +136,14 @@ class Chart extends Component {
     })
       return(
         <PageHolder>
-            <div>
-                <select name="chart" onChange={this.handleTextUpdate} defaultValue='placeholder'>
+            <ContainerBox>
+                <SelectBox name="chart" onChange={this.handleTextUpdate} defaultValue='placeholder'>
                    <option disabled value='placeholder'>Select Chart</option>
 
                     {inputs}
-                </select>
-                <button onClick={this.updateChart}>Submit</button>
-            </div>
+                </SelectBox>
+                <Submit onClick={this.updateChart}>Submit</Submit>
+            </ContainerBox>
 
           <ChartBody>
               {this.state.graph === 'line' &&
@@ -202,6 +202,10 @@ class Chart extends Component {
 const PageHolder = styled.div`
    margin: 0px;
    margin-top: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-flow: column;
    `
 
 const ChartBody = styled.div`
@@ -211,6 +215,44 @@ const ChartBody = styled.div`
     @media (max-width: 500px) {
         max-width: 350px;
       }
+    `
+
+const ContainerBox = styled.div`
+    margin-bottom: 25px;
+    width: 400px;   
+    height: 75px; 
+    display: flex;
+    align-items: center;
+    justify-conent: space-between;
+    background: #F9F9F9;
+    box-shadow: 10px 10px 7px 7px #888888;
+    border-radius: 7px;
+    @media (max-width: 500px) {
+        max-width: 300px;
+      }
+    `
+
+const Submit = styled.button`
+    margin: 0px;
+    margin-left: 30px;
+    font-family: sans-serif;
+    font-size: 1.5em;
+    width: 150px;
+    height: 30px;
+    background: #A7F285;
+    text-decoration: none;
+    border: 0px;
+    border-radius: 10px;
+    @media (max-width: 500px) {
+        max-width: 100px;
+      }
+    `
+
+const SelectBox = styled.select`
+    margin: 0px;
+    font-size: 1.5em;
+    border-radius: 7px;
+    width: 50%;
     `
 
 const styles = {

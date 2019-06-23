@@ -140,7 +140,7 @@ class NewRoundConfig extends Component{
     choiceFunction = (e) => {
         if (this.state.chooseTees) {
             return(
-                <>
+                <ConfigBox>
                     <Wrapper>
                         <h1>Choose Tees</h1>
                     </Wrapper>
@@ -155,11 +155,11 @@ class NewRoundConfig extends Component{
                                 <h2>Red</h2>
                             </Button>
                         </ChoiceBox>
-                </>
+                </ConfigBox>
             )
         } else if (this.state.chooseNumOfHoles) {
             return(
-                <>
+                <ConfigBox>
                     <Wrapper>
                         <h1>Round Length</h1>                
                     </Wrapper>
@@ -172,11 +172,11 @@ class NewRoundConfig extends Component{
                             <h2>18</h2>
                         </div>
                     </ChoiceBox>
-                </>
+                </ConfigBox>
             )
         } else if (this.state.chooseStartingHole) {
             return(
-                <>
+                <ConfigBox>
                     <Wrapper>
                             <h1>Starting Hole</h1>
                     </Wrapper>
@@ -188,19 +188,19 @@ class NewRoundConfig extends Component{
                             <h2>10</h2>
                         </div>
                     </ChoiceBox>
-                </>
+                </ConfigBox>
             )
         } else if (this.state.chooseGoal) {
             return(
-                <>
+                <ConfigBox>
                     <Wrapper>
                         <h1>Choose Goal</h1>
                     </Wrapper>
                     <ChoiceBox>
                         <EnterHoleInput type='tel' onChange={this.updateState}></EnterHoleInput>
-                        <button onClick={this.roundSetup}>Submit</button>
+                        <Submit onClick={this.roundSetup}>Submit</Submit>
                     </ChoiceBox>
-                </>
+                </ConfigBox>
             )
         }
     }
@@ -231,20 +231,49 @@ const ChoiceBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     `
+    
 const Button = styled.div`
     marign:0px;
     `
+
+const Submit = styled.button`
+    margin: 0px;
+    font-family: sans-serif;
+    margin-top: 15px;
+    font-size: 1.5em;
+    width: 150px;
+    height: 30px;
+    background: #A7F285;
+    text-decoration: none;
+    border: 0px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    `
+
 const Wrapper = styled.div`
     display: flex;
     justify-content: center;
+    width: 100%;
     `
+    
 const EnterHoleInput = styled.input` 
     font-size: 1.5em;
     font-family: sans-serif;
     width: 50%
     margin-top: 10px;
     `
-
+const ConfigBox = styled.div`
+   margin-left: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-flow: column;
+   width: 400px;
+   @media (max-width: 500px) {
+       max-width: 350px;
+     }
+   `   
 export default connect(mapStateToProps,{roundSetup})(NewRoundConfig)
 

@@ -159,7 +159,7 @@ class EmptyHole extends Component {
                     </Wrapper>
                     <ChoiceBox>
                         <EnterHoleInput type='tel' placeholder="Enter Score" name='score' onChange={this.updateState}></EnterHoleInput>
-                        <button onClick={this.nextHole}>Submit</button>
+                        <Submit onClick={this.nextHole}>Submit</Submit>
                     </ChoiceBox>
                 </>
             )
@@ -210,6 +210,19 @@ const Button = styled.div`
 const Wrapper = styled.div`
     display: flex;
     justify-content: center;
+    `
+const Submit = styled.button`
+    margin: 0px;
+    font-family: sans-serif;
+    margin-top: 15px;
+    font-size: 1.5em;
+    width: 150px;
+    height: 30px;
+    background: #A7F285;
+    text-decoration: none;
+    border: 0px;
+    border-radius: 10px;
+    margin-bottom: 10px;
     `
 
 
